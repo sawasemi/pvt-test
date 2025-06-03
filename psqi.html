@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ピッツバーグ睡眠質問票（PSQI）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .research-note {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+
+        .intro {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2c3e50;
+        }
+
+        .question-number {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .sub-question {
+            margin: 15px 0;
+            padding-left: 10px;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .sub-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: #2c3e50;
+            outline: none;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 14px;
+        }
+
+        .radio-option:hover {
+            border-color: #2c3e50;
+            background: #f8f9ff;
+        }
+
+        .radio-option.selected {
+            border-color: #2c3e50;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .radio-option input {
+            margin-right: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            flex: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            height: 100%;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+        }
+
+        .score-main {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .total-score {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .score-label {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .interpretation {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .component-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .component {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .component-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .component-name {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.3;
+        }
+
+        .interpretation-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .interpretation-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .interpretation-text {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .component-scores {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 開始画面 -->
+        <div id="startSection">
+            <div class="header">
+                <div class="title">ピッツバーグ睡眠質問票</div>
+                <div class="subtitle">PSQI (Pittsburgh Sleep Quality Index)</div>
+            </div>
+
+            <div class="research-note">
+                <strong>看護研究用標準質問票</strong><br>
+                本質問票は標準化されたPSQI-J（日本語版）に基づいており、学術研究での使用に適しています。
+            </div>
+
+            <div class="intro">
+                <h3 style="margin-bottom: 15px; color: #2c3e50;">質問票について</h3>
+                <p style="margin-bottom: 10px; line-height: 1.6;">
+                    この質問票は、<strong>過去1ヶ月間</strong>のあなたの睡眠習慣について尋ねるものです。
+                </p>
+                <p style="margin-bottom: 10px; line-height: 1.6;">
+                    19項目の質問から、睡眠の質を7つの要素で評価し、総合的な睡眠の質を数値化します。
+                </p>
+                <p style="line-height: 1.6;">
+                    <strong>できるだけ正確に、正直にお答えください。</strong>
+                </p>
+            </div>
+
+            <button class="btn btn-primary" onclick="startQuestionnaire()" style="width: 100%;">
+                質問票を開始
+            </button>
+        </div>
+
+        <!-- 質問票セクション -->
+        <div id="questionSection" class="question-section">
+            <div class="progress-container">
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">質問 1 / 19</div>
+            </div>
+
+            <div id="questionContainer">
+                <!-- 質問が動的に表示される -->
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" disabled>
+                    前へ
+                </button>
+                <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
+                    次へ
+                </button>
+            </div>
+        </div>
+
+        <!-- 結果表示 -->
+        <div id="resultsSection" class="results">
+            <div class="score-main">
+                <div class="total-score" id="totalScore">0</div>
+                <div class="score-label">PSQI総合スコア</div>
+                <div class="interpretation" id="mainInterpretation"></div>
+            </div>
+
+            <div class="component-scores">
+                <div class="component">
+                    <div class="component-score" id="comp1">0</div>
+                    <div class="component-name">睡眠の質</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp2">0</div>
+                    <div class="component-name">入眠時間</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp3">0</div>
+                    <div class="component-name">睡眠時間</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp4">0</div>
+                    <div class="component-name">睡眠効率</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp5">0</div>
+                    <div class="component-name">睡眠困擾</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp6">0</div>
+                    <div class="component-name">睡眠薬使用</div>
+                </div>
+                <div class="component">
+                    <div class="component-score" id="comp7">0</div>
+                    <div class="component-name">日中覚醒困難</div>
+                </div>
+            </div>
+
+            <div class="interpretation-box">
+                <div class="interpretation-title">結果の解釈</div>
+                <div class="interpretation-text" id="detailedInterpretation"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-primary" onclick="shareResults()">結果を共有</button>
+                <button class="btn btn-secondary" onclick="resetQuestionnaire()">再テスト</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+        let currentQuestion = 0;
+        let answers = {};
+        
+        const questions = [
+            // 質問1: 就床時刻
+            {
+                id: 'bedtime',
+                type: 'time',
+                text: '過去1ヶ月間において、通常何時頃に床につきましたか？',
+                label: '就床時刻'
+            },
+            // 質問2: 入眠時間
+            {
+                id: 'sleepLatency',
+                type: 'number',
+                text: '過去1ヶ月間において、床についてから実際に眠りにつくまで、通常どのくらい時間がかかりましたか？',
+                label: '入眠時間（分）',
+                placeholder: '例: 30'
+            },
+            // 質問3: 起床時刻
+            {
+                id: 'wakeTime',
+                type: 'time',
+                text: '過去1ヶ月間において、通常何時頃に起床しましたか？',
+                label: '起床時刻'
+            },
+            // 質問4: 実際の睡眠時間
+            {
+                id: 'actualSleep',
+                type: 'number',
+                text: '過去1ヶ月間において、実際に眠っていた時間は1晩平均何時間くらいでしたか？（床上時間とは異なります）',
+                label: '実際の睡眠時間（時間）',
+                placeholder: '例: 7.5',
+                step: '0.5'
+            },
+            // 質問5a: 入眠困難
+            {
+                id: 'q5a',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '30分以内に眠ることができない',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5b: 夜間または早朝覚醒
+            {
+                id: 'q5b',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '夜間または早朝に目が覚める',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5c: トイレ
+            {
+                id: 'q5c',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: 'トイレに起きる',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5d: 呼吸困難
+            {
+                id: 'q5d',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '息苦しい',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5e: いびき・咳
+            {
+                id: 'q5e',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '大きないびきをかく',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5f: 寒さ
+            {
+                id: 'q5f',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: 'ひどく寒い',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5g: 暑さ
+            {
+                id: 'q5g',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: 'ひどく暑い',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5h: 悪夢
+            {
+                id: 'q5h',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '悪い夢をみる',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5i: 痛み
+            {
+                id: 'q5i',
+                type: 'radio',
+                text: '過去1ヶ月間において、以下の理由で睡眠に問題がありましたか？',
+                subtext: '痛み',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問5j: その他
+            {
+                id: 'q5j',
+                type: 'textarea',
+                text: '過去1ヶ月間において、上記以外に睡眠の質に影響するその他の理由がありましたか？ある場合はその理由をお書きください。',
+                label: 'その他の理由（任意）'
+            },
+            // 質問6: 睡眠の質
+            {
+                id: 'q6',
+                type: 'radio',
+                text: '過去1ヶ月間において、全体的にあなたの睡眠の質をどのように評価しますか？',
+                options: [
+                    '非常によい',
+                    'かなりよい',
+                    'かなり悪い',
+                    '非常に悪い'
+                ]
+            },
+            // 質問7: 睡眠薬
+            {
+                id: 'q7',
+                type: 'radio',
+                text: '過去1ヶ月間において、眠るために睡眠薬を服用することがどのくらいありましたか？',
+                options: [
+                    '全くなし',
+                    '週に1回未満',
+                    '週に1～2回',
+                    '週に3回以上'
+                ]
+            },
+            // 質問8: 日中の眠気
+            {
+                id: 'q8',
+                type: 'radio',
+                text: '過去1ヶ月間において、授業中、運転中、食事中、社会活動中に眠気のために問題となることがどのくらいありましたか？',
+                options: [
+                    '全くなし',
+                    'ごくわずか',
+                    'いくらか',
+                    '非常に大きな問題'
+                ]
+            },
+            // 質問9: 意欲
+            {
+                id: 'q9',
+                type: 'radio',
+                text: '過去1ヶ月間において、物事に取り組む意欲を保つことがどの程度問題となりましたか？',
+                options: [
+                    '全く問題なし',
+                    'ごくわずか問題',
+                    'いくらか問題',
+                    '非常に大きな問題'
+                ]
+            },
+            // 質問10: パートナー/同室者
+            {
+                id: 'q10',
+                type: 'radio',
+                text: 'あなたには寝床を共にするパートナーまたは同室者がいますか？',
+                options: [
+                    'パートナー/同室者はいない',
+                    '別の部屋で寝ているパートナー/同室者がいる',
+                    '同じ部屋で別のベッドで寝ているパートナー/同室者がいる',
+                    '同じベッドで寝ているパートナー/同室者がいる'
+                ]
+            }
+        ];
+
+        function startQuestionnaire() {
+            document.getElementById('startSection').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+            showCurrentQuestion();
+        }
+
+        function showCurrentQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let html = `
+                <div class="question">
+                    <div class="question-number">質問 ${currentQuestion + 1}</div>
+                    <div class="question-text">${question.text}</div>
+            `;
+
+            if (question.subtext) {
+                html += `<div class="sub-question"><div class="sub-text">${question.subtext}</div></div>`;
+            }
+
+            if (question.type === 'time' || question.type === 'number') {
+                const step = question.step ? `step="${question.step}"` : '';
+                const placeholder = question.placeholder ? `placeholder="${question.placeholder}"` : '';
+                html += `
+                    <div class="input-group">
+                        <label>${question.label}</label>
+                        <input type="${question.type}" id="${question.id}" ${step} ${placeholder} 
+                               value="${answers[question.id] || ''}" onchange="saveAnswer('${question.id}', this.value)">
+                    </div>
+                `;
+            } else if (question.type === 'textarea') {
+                html += `
+                    <div class="input-group">
+                        <label>${question.label}</label>
+                        <textarea id="${question.id}" rows="3" 
+                                  onchange="saveAnswer('${question.id}', this.value)">${answers[question.id] || ''}</textarea>
+                    </div>
+                `;
+            } else if (question.type === 'radio') {
+                html += '<div class="radio-group">';
+                question.options.forEach((option, index) => {
+                    const selected = answers[question.id] == index ? 'selected' : '';
+                    html += `
+                        <div class="radio-option ${selected}" onclick="selectOption('${question.id}', ${index})">
+                            <input type="radio" name="${question.id}" value="${index}" ${answers[question.id] == index ? 'checked' : ''}>
+                            ${option}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+
+            updateProgress();
+            updateNavigation();
+        }
+
+        function selectOption(questionId, value) {
+            answers[questionId] = value;
+            
+            // Update visual selection
+            const currentRadioGroup = document.querySelector('.radio-group');
+            currentRadioGroup.querySelectorAll('.radio-option').forEach((option, index) => {
+                option.classList.remove('selected');
+                if (index === value) {
+                    option.classList.add('selected');
+                    option.querySelector('input').checked = true;
+                }
+            });
+        }
+
+        function saveAnswer(questionId, value) {
+            answers[questionId] = value;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showCurrentQuestion();
+            } else {
+                calculateAndShowResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showCurrentQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `質問 ${currentQuestion + 1} / ${questions.length}`;
+        }
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '結果を表示' : '次へ';
+        }
+
+function calculateAndShowResults() {
+            const components = calculatePSQIComponents();
+            const totalScore = Object.values(components).reduce((sum, score) => sum + score, 0);
+            
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // Display scores
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('comp1').textContent = components.comp1;
+            document.getElementById('comp2').textContent = components.comp2;
+            document.getElementById('comp3').textContent = components.comp3;
+            document.getElementById('comp4').textContent = components.comp4;
+            document.getElementById('comp5').textContent = components.comp5;
+            document.getElementById('comp6').textContent = components.comp6;
+            document.getElementById('comp7').textContent = components.comp7;
+            
+            // Interpretation
+            let interpretation, detailedText;
+            if (totalScore <= 5) {
+                interpretation = '睡眠の質は良好です';
+                detailedText = 'PSQIスコアが5点以下で、睡眠の質は良好な状態です。現在の睡眠習慣を維持することをお勧めします。';
+            } else if (totalScore <= 10) {
+                interpretation = '軽度の睡眠問題が認められます';
+                detailedText = 'PSQIスコアが6-10点で、軽度の睡眠問題が認められます。睡眠衛生の改善や生活習慣の見直しを検討してください。';
+            } else if (totalScore <= 15) {
+                interpretation = '中等度の睡眠問題が認められます';
+                detailedText = 'PSQIスコアが11-15点で、中等度の睡眠問題が認められます。医療機関での相談を検討することをお勧めします。';
+            } else {
+                interpretation = '重度の睡眠問題が認められます';
+                detailedText = 'PSQIスコアが16点以上で、重度の睡眠問題が認められます。速やかに医療機関での精査・治療を受けることをお勧めします。';
+            }
+            
+            document.getElementById('mainInterpretation').textContent = interpretation;
+            document.getElementById('detailedInterpretation').textContent = detailedText;
+        }
+
+        function calculatePSQIComponents() {
+            // PSQI標準計算式に基づく
+            const comp = {};
+            
+            // Component 1: Subjective sleep quality (質問6)
+            comp.comp1 = parseInt(answers.q6) || 0;
+            
+            // Component 2: Sleep latency (質問2 + 質問5a)
+            const latency = parseInt(answers.sleepLatency) || 0;
+            const q5a = parseInt(answers.q5a) || 0;
+            let latencyScore = 0;
+            if (latency <= 15) latencyScore = 0;
+            else if (latency <= 30) latencyScore = 1;
+            else if (latency <= 60) latencyScore = 2;
+            else latencyScore = 3;
+            
+            const latencySum = latencyScore + q5a;
+            if (latencySum === 0) comp.comp2 = 0;
+            else if (latencySum <= 2) comp.comp2 = 1;
+            else if (latencySum <= 4) comp.comp2 = 2;
+            else comp.comp2 = 3;
+            
+            // Component 3: Sleep duration (質問4)
+            const sleepHours = parseFloat(answers.actualSleep) || 0;
+            if (sleepHours > 7) comp.comp3 = 0;
+            else if (sleepHours > 6) comp.comp3 = 1;
+            else if (sleepHours > 5) comp.comp3 = 2;
+            else comp.comp3 = 3;
+            
+            // Component 4: Sleep efficiency (質問1, 3, 4から計算)
+            if (answers.bedtime && answers.wakeTime && answers.actualSleep) {
+                const bedtime = parseTimeToMinutes(answers.bedtime);
+                let wakeTime = parseTimeToMinutes(answers.wakeTime);
+                
+                // 起床時刻が就床時刻より早い場合は翌日とする
+                if (wakeTime <= bedtime) {
+                    wakeTime += 24 * 60; // 24時間を分で加算
+                }
+                
+                const timeInBed = (wakeTime - bedtime) / 60; // 時間に変換
+                const actualSleepHours = parseFloat(answers.actualSleep) || 0;
+                const efficiency = (actualSleepHours / timeInBed) * 100;
+                
+                if (efficiency >= 85) comp.comp4 = 0;
+                else if (efficiency >= 75) comp.comp4 = 1;
+                else if (efficiency >= 65) comp.comp4 = 2;
+                else comp.comp4 = 3;
+            } else {
+                comp.comp4 = 0;
+            }
+            
+            // Component 5: Sleep disturbances (質問5b-5i)
+            const disturbances = ['q5b', 'q5c', 'q5d', 'q5e', 'q5f', 'q5g', 'q5h', 'q5i'];
+            const disturbanceSum = disturbances.reduce((sum, q) => sum + (parseInt(answers[q]) || 0), 0);
+            
+            if (disturbanceSum === 0) comp.comp5 = 0;
+            else if (disturbanceSum <= 9) comp.comp5 = 1;
+            else if (disturbanceSum <= 18) comp.comp5 = 2;
+            else comp.comp5 = 3;
+            
+            // Component 6: Sleep medication (質問7)
+            comp.comp6 = parseInt(answers.q7) || 0;
+            
+            // Component 7: Daytime dysfunction (質問8 + 質問9)
+            const q8 = parseInt(answers.q8) || 0;
+            const q9 = parseInt(answers.q9) || 0;
+            const dysfunctionSum = q8 + q9;
+            
+            if (dysfunctionSum === 0) comp.comp7 = 0;
+            else if (dysfunctionSum <= 2) comp.comp7 = 1;
+            else if (dysfunctionSum <= 4) comp.comp7 = 2;
+            else comp.comp7 = 3;
+            
+            return comp;
+        }
+
+        function parseTimeToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function shareResults() {
+            const totalScore = document.getElementById('totalScore').textContent;
+            const interpretation = document.getElementById('mainInterpretation').textContent;
+            
+            const shareText = `🌙 ピッツバーグ睡眠質問票（PSQI）結果 🌙\n\n` +
+                `📊 総合スコア: ${totalScore}点\n` +
+                `💤 評価: ${interpretation}\n\n` +
+                `📝 各要素スコア:\n` +
+                `・睡眠の質: ${document.getElementById('comp1').textContent}点\n` +
+                `・入眠時間: ${document.getElementById('comp2').textContent}点\n` +
+                `・睡眠時間: ${document.getElementById('comp3').textContent}点\n` +
+                `・睡眠効率: ${document.getElementById('comp4').textContent}点\n` +
+                `・睡眠困擾: ${document.getElementById('comp5').textContent}点\n` +
+                `・睡眠薬使用: ${document.getElementById('comp6').textContent}点\n` +
+                `・日中覚醒困難: ${document.getElementById('comp7').textContent}点\n\n` +
+                `※ 5点以下：良好、6-10点：軽度問題、11-15点：中等度問題、16点以上：重度問題\n\n` +
+                `#ピッツバーグ睡眠質問票 #PSQI #睡眠の質 #看護研究`;
+
+            if (typeof liff !== 'undefined' && liff.isApiAvailable('shareTargetPicker')) {
+                liff.shareTargetPicker([
+                    {
+                        type: 'text',
+                        text: shareText
+                    }
+                ]);
+            } else if (navigator.share) {
+                navigator.share({
+                    title: 'ピッツバーグ睡眠質問票結果',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('結果をクリップボードにコピーしました！LINEで貼り付けて共有してください。');
+                }).catch(() => {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = shareText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert('結果をクリップボードにコピーしました！');
+                });
+            }
+        }
+
+        function resetQuestionnaire() {
+            currentQuestion = 0;
+            answers = {};
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('startSection').style.display = 'block';
+        }
+
+        // LINE LIFF初期化
+        if (typeof liff !== 'undefined') {
+            liff.init({
+                liffId: '2007512404-4n5rEBjG' // ← ここに取得したLIFF IDを入力してください
+            }).then(() => {
+                console.log('LIFF初期化成功');
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        console.log('ユーザー名:', profile.displayName);
+                    });
+                }
+            }).catch((err) => {
+                console.error('LIFF初期化エラー:', err);
+            });
+        }
+    </script>
+</body>
+</html>
