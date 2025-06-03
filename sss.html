@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタンフォード睡眠尺度（SSS）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .research-note {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+
+        .intro {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .datetime-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .datetime-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .datetime-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .datetime-input input {
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .datetime-input label {
+            font-size: 13px;
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .test-section {
+            display: none;
+        }
+
+        .scale-container {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .scale-title {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .scale-instruction {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .scale-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .scale-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+        .scale-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .scale-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .scale-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .scale-option.selected .scale-number {
+            background: white;
+            color: #667eea;
+        }
+
+        .scale-text {
+            flex: 1;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .scale-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .submit-section {
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .result-interpretation {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .result-details {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .result-details h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .result-details p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .timestamp-info {
+            background: #e8f4fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .datetime-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 開始画面 -->
+        <div id="startSection">
+            <div class="header">
+                <div class="title">スタンフォード睡眠尺度</div>
+                <div class="subtitle">Stanford Sleepiness Scale (SSS)</div>
+            </div>
+
+            <div class="research-note">
+                <strong>看護研究用標準尺度</strong><br>
+                本尺度は標準化されたスタンフォード睡眠尺度に基づいており、眠気の主観的評価に使用されます。
+            </div>
+
+            <div class="intro">
+                <h3 style="margin-bottom: 15px; color: #667eea;">尺度について</h3>
+                <p style="margin-bottom: 10px; line-height: 1.6;">
+                    この尺度は、<strong>現在のあなたの眠気の程度</strong>を8段階で評価するものです。
+                </p>
+                <p style="margin-bottom: 10px; line-height: 1.6;">
+                    シフトワーク、夜勤、睡眠不足などの影響を客観的に測定できます。
+                </p>
+                <p style="line-height: 1.6;">
+                    <strong>現在の状態を正直にお答えください。</strong>
+                </p>
+            </div>
+
+            <div class="datetime-section">
+                <div class="datetime-title">測定日時の記録</div>
+                <div class="datetime-input">
+                    <label>日付:</label>
+                    <input type="date" id="measureDate" required>
+                </div>
+                <div class="datetime-input">
+                    <label>時刻:</label>
+                    <input type="time" id="measureTime" required>
+                </div>
+                <div style="font-size: 12px; color: #856404; margin-top: 8px;">
+                    ※ 測定条件（勤務前/後、休憩時等）を後で記録できます
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="startAssessment()" id="startBtn" disabled>
+                評価を開始
+            </button>
+        </div>
+
+        <!-- 評価画面 -->
+        <div id="testSection" class="test-section">
+            <div class="scale-container">
+                <div class="scale-title">現在の眠気レベルを選択してください</div>
+                <div class="scale-instruction">
+                    あなたの現在の状態に最も近いものを1つ選んでください
+                </div>
+
+                <div class="scale-options">
+                    <div class="scale-option" onclick="selectScale(1)">
+                        <div class="scale-number">1</div>
+                        <div class="scale-text">
+                            <strong>感じは爽快、十分覚醒、広範囲に注意が向いている</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="1">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(2)">
+                        <div class="scale-number">2</div>
+                        <div class="scale-text">
+                            <strong>機能的で、効果的、注意は比較的広範囲に向いている</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="2">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(3)">
+                        <div class="scale-number">3</div>
+                        <div class="scale-text">
+                            <strong>リラックスしている、反応性良好だが十分注意が向いていない</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="3">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(4)">
+                        <div class="scale-number">4</div>
+                        <div class="scale-text">
+                            <strong>少しぼんやりしている、注意力が散漫</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="4">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(5)">
+                        <div class="scale-number">5</div>
+                        <div class="scale-text">
+                            <strong>ぼんやりしている、注意力低下、あまりぱっとしない</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="5">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(6)">
+                        <div class="scale-number">6</div>
+                        <div class="scale-text">
+                            <strong>眠い、朦朧としている、努力しないと覚醒を維持できない</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="6">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(7)">
+                        <div class="scale-number">7</div>
+                        <div class="scale-text">
+                            <strong>眠い、夢見心地、すぐにでも眠りそう、思考力低下</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="7">
+                    </div>
+
+                    <div class="scale-option" onclick="selectScale(8)">
+                        <div class="scale-number">8</div>
+                        <div class="scale-text">
+                            <strong>眠い、夢見心地、次の瞬間眠ってしまいそう</strong>
+                        </div>
+                        <input type="radio" name="sleepiness" value="8">
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button class="btn btn-primary" onclick="showResults()" id="submitBtn" disabled>
+                    結果を表示
+                </button>
+            </div>
+        </div>
+
+        <!-- 結果画面 -->
+        <div id="resultsSection" class="results">
+            <div class="result-card">
+                <div class="result-score" id="finalScore">0</div>
+                <div class="result-label">眠気レベル</div>
+                <div class="result-interpretation" id="interpretation"></div>
+            </div>
+
+            <div class="timestamp-info">
+                <strong>測定情報</strong><br>
+                <span id="measurementInfo"></span>
+            </div>
+
+            <div class="result-details">
+                <h3>結果の解釈</h3>
+                <div id="detailedInterpretation"></div>
+                <p><strong>活用方法:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>勤務前後の眠気変化の記録</li>
+                    <li>夜勤時の安全性評価</li>
+                    <li>睡眠不足の影響測定</li>
+                    <li>休憩タイミングの判断</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="shareResults()">結果を共有</button>
+                <button class="btn btn-secondary" onclick="resetAssessment()">再測定</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+        let selectedScore = null;
+        let measurementData = {};
+
+        // 現在の日時を設定
+        function setCurrentDateTime() {
+            const now = new Date();
+            const dateString = now.toISOString().split('T')[0];
+            const timeString = now.toTimeString().split(' ')[0].substring(0, 5);
+            
+            document.getElementById('measureDate').value = dateString;
+            document.getElementById('measureTime').value = timeString;
+            
+            // 日付と時刻が入力されたらボタンを有効化
+            checkStartButton();
+        }
+
+        // ページ読み込み時に現在日時を設定
+        window.onload = function() {
+            setCurrentDateTime();
+        };
+
+        // 日付・時刻の入力チェック
+        function checkStartButton() {
+            const date = document.getElementById('measureDate').value;
+            const time = document.getElementById('measureTime').value;
+            const startBtn = document.getElementById('startBtn');
+            
+            if (date && time) {
+                startBtn.disabled = false;
+            } else {
+                startBtn.disabled = true;
+            }
+        }
+
+        // 日付・時刻入力時のイベントリスナー
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('measureDate').addEventListener('change', checkStartButton);
+            document.getElementById('measureTime').addEventListener('change', checkStartButton);
+        });
+
+        function startAssessment() {
+            // 測定データを保存
+            measurementData.date = document.getElementById('measureDate').value;
+            measurementData.time = document.getElementById('measureTime').value;
+            measurementData.timestamp = new Date().toISOString();
+            
+            // 画面切り替え
+            document.getElementById('startSection').style.display = 'none';
+            document.getElementById('testSection').style.display = 'block';
+        }
+
+        function selectScale(score) {
+            selectedScore = score;
+            
+            // 全ての選択肢から selected クラスを削除
+            document.querySelectorAll('.scale-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 選択された選択肢に selected クラスを追加
+            event.currentTarget.classList.add('selected');
+            
+            // ラジオボタンをチェック
+            event.currentTarget.querySelector('input[type="radio"]').checked = true;
+            
+            // 結果表示ボタンを有効化
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function showResults() {
+            if (!selectedScore) return;
+            
+            // 画面切り替え
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // スコア表示
+            document.getElementById('finalScore').textContent = selectedScore;
+            
+            // 解釈の表示
+            displayInterpretation(selectedScore);
+            
+            // 測定情報の表示
+            displayMeasurementInfo();
+        }
+
+        function displayInterpretation(score) {
+            let interpretation = '';
+            let detailedText = '';
+            
+            switch(score) {
+                case 1:
+                    interpretation = '覚醒状態良好';
+                    detailedText = `
+                        <p><strong>レベル1: 最良の覚醒状態</strong></p>
+                        <p>十分に覚醒しており、注意力も最大限に発揮できる状態です。安全で効率的な業務遂行が可能です。</p>
+                        <p><strong>推奨事項:</strong> 現在の良好な状態を維持してください。</p>
+                    `;
+                    break;
+                case 2:
+                    interpretation = '良好な覚醒状態';
+                    detailedText = `
+                        <p><strong>レベル2: 良好な機能状態</strong></p>
+                        <p>効果的に機能でき、注意力も広範囲に向いている良好な状態です。通常業務に支障はありません。</p>
+                        <p><strong>推奨事項:</strong> この状態を維持し、定期的な休憩を心がけてください。</p>
+                    `;
+                    break;
+                case 3:
+                    interpretation = 'リラックス状態';
+                    detailedText = `
+                        <p><strong>レベル3: リラックスした状態</strong></p>
+                        <p>反応性は良好ですが、注意力がやや低下しています。軽度の注意散漫が見られる可能性があります。</p>
+                        <p><strong>推奨事項:</strong> 重要な作業前には軽い刺激（冷水、軽い運動等）が有効です。</p>
+                    `;
+                    break;
+                case 4:
+                    interpretation = '軽度の注意力低下';
+                    detailedText = `
+                        <p><strong>レベル4: 軽度の眠気</strong></p>
+                        <p>少しぼんやりしており、注意力が散漫になっています。ミスが起こりやすい状態です。</p>
+                        <p><strong>推奨事項:</strong> 短時間の休憩、カフェイン摂取、明るい環境への移動を検討してください。</p>
+                    `;
+                    break;
+                case 5:
+                    interpretation = '中等度の眠気';
+                    detailedText = `
+                        <p><strong>レベル5: 中等度の注意力低下</strong></p>
+                        <p>明らかにぼんやりしており、注意力が低下しています。業務効率に影響が出る可能性があります。</p>
+                        <p><strong>推奨事項:</strong> 10-15分の仮眠、または十分な休憩が必要です。重要な判断は避けてください。</p>
+                    `;
+                    break;
+                case 6:
+                    interpretation = '高度な眠気';
+                    detailedText = `
+                        <p><strong>レベル6: 高度な眠気状態</strong></p>
+                        <p>覚醒を維持するのに努力が必要で、朦朧とした状態です。安全性に問題が生じる可能性があります。</p>
+                        <p><strong>推奨事項:</strong> 20-30分の仮眠が強く推奨されます。危険な作業は避けてください。</p>
+                    `;
+                    break;
+                case 7:
+                    interpretation = '重度の眠気';
+                    detailedText = `
+                        <p><strong>レベル7: 重度の眠気状態</strong></p>
+                        <p>夢見心地で思考力が著しく低下しています。いつ眠ってしまってもおかしくない状態です。</p>
+                        <p><strong>推奨事項:</strong> 直ちに安全な場所で休憩してください。業務継続は危険です。</p>
+                    `;
+                    break;
+                case 8:
+                    interpretation = '極度の眠気';
+                    detailedText = `
+                        <p><strong>レベル8: 極度の眠気状態</strong></p>
+                        <p>次の瞬間眠ってしまいそうな危険な状態です。意識を保つことが困難です。</p>
+                        <p><strong>推奨事項:</strong> 直ちに業務を中止し、十分な睡眠を取ってください。医療従事者は上司に報告してください。</p>
+                    `;
+                    break;
+            }
+            
+            document.getElementById('interpretation').textContent = interpretation;
+            document.getElementById('detailedInterpretation').innerHTML = detailedText;
+        }
+
+        function displayMeasurementInfo() {
+            const date = new Date(measurementData.date + 'T' + measurementData.time);
+            const dateStr = date.toLocaleDateString('ja-JP', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            const timeStr = date.toLocaleTimeString('ja-JP', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            document.getElementById('measurementInfo').innerHTML = 
+                `測定日時: ${dateStr} ${timeStr}<br>記録日時: ${new Date().toLocaleString('ja-JP')}`;
+        }
+
+        function shareResults() {
+            const score = selectedScore;
+            const interpretation = document.getElementById('interpretation').textContent;
+            const measureDate = measurementData.date;
+            const measureTime = measurementData.time;
+            
+            const shareText = `😴 スタンフォード睡眠尺度（SSS）結果 😴\n\n` +
+                `📊 眠気レベル: ${score}/8\n` +
+                `💤 状態: ${interpretation}\n` +
+                `📅 測定日時: ${measureDate} ${measureTime}\n\n` +
+                `📝 評価基準:\n` +
+                `1-2: 良好な覚醒状態\n` +
+                `3-4: 軽度の眠気\n` +
+                `5-6: 中等度の眠気\n` +
+                `7-8: 重度の眠気\n\n` +
+                `#スタンフォード睡眠尺度 #SSS #眠気評価 #看護研究`;
+
+            if (typeof liff !== 'undefined' && liff.isApiAvailable('shareTargetPicker')) {
+                liff.shareTargetPicker([
+                    {
+                        type: 'text',
+                        text: shareText
+                    }
+                ]);
+            } else if (navigator.share) {
+                navigator.share({
+                    title: 'スタンフォード睡眠尺度結果',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('結果をクリップボードにコピーしました！LINEで貼り付けて共有してください。');
+                }).catch(() => {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = shareText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert('結果をクリップボードにコピーしました！');
+                });
+            }
+        }
+
+        function resetAssessment() {
+            selectedScore = null;
+            measurementData = {};
+            
+            // 画面リセット
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('startSection').style.display = 'block';
+            
+            // 選択状態リセット
+            document.querySelectorAll('.scale-option').forEach(option => {
+                option.classList.remove('selected');
+                option.querySelector('input[type="radio"]').checked = false;
+            });
+            
+            // ボタン状態リセット
+            document.getElementById('submitBtn').disabled = true;
+            
+            // 現在日時を再設定
+            setCurrentDateTime();
+        }
+
+        // LINE LIFF初期化
+        if (typeof liff !== 'undefined') {
+            liff.init({
+                liffId: '2007512404-5D9d4gBM' // ← ここに取得したLIFF IDを入力してください
+            }).then(() => {
+                console.log('LIFF初期化成功');
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        console.log('ユーザー名:', profile.displayName);
+                    });
+                }
+            }).catch((err) => {
+                console.error('LIFF初期化エラー:', err);
+            });
+        }
+    </script>
+</body>
+</html>
