@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>起床時睡眠感調査表（MA版）</title>
+    <title>起床時睡眠感調査表（OSA-MA版）</title>
     <style>
         * {
             margin: 0;
@@ -173,30 +173,25 @@
 
         .question-text {
             font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 16px;
+            margin-bottom: 25px;
+            font-size: 18px;
             text-align: center;
-        }
-
-        .scale-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
+            color: #333;
         }
 
         .scale-labels {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
         }
 
         .scale-label {
-            font-size: 12px;
-            color: #666;
             text-align: center;
             flex: 1;
+            font-weight: 500;
         }
 
         .scale-options {
@@ -204,13 +199,14 @@
             justify-content: space-between;
             width: 100%;
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         .scale-option {
             flex: 1;
-            height: 45px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            height: 50px;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             background: white;
@@ -218,19 +214,22 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 16px;
             position: relative;
         }
 
         .scale-option:hover {
             border-color: #4a90e2;
             background: #f0f7ff;
+            transform: translateY(-2px);
         }
 
         .scale-option.selected {
             border-color: #4a90e2;
             background: #4a90e2;
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
         }
 
         .scale-option input[type="radio"] {
@@ -239,25 +238,17 @@
         }
 
         .selection-guide {
-            margin-top: 20px;
-            padding: 15px;
             background: #f0f7ff;
             border-radius: 8px;
+            padding: 15px;
             font-size: 13px;
             color: #4a90e2;
+            text-align: center;
         }
 
         .guide-title {
-            text-align: center;
             font-weight: bold;
             margin-bottom: 8px;
-        }
-
-        .guide-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            text-align: center;
         }
 
         .navigation {
@@ -267,9 +258,9 @@
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 15px 25px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
@@ -328,16 +319,17 @@
 
         .factor-scores {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
 
         .factor-card {
             background: #f8f9ff;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 20px;
             text-align: center;
+            border: 2px solid #e0e0e0;
         }
 
         .factor-score {
@@ -397,7 +389,8 @@
             }
             
             .scale-option {
-                font-size: 12px;
+                font-size: 14px;
+                height: 45px;
             }
             
             .factor-scores {
@@ -425,7 +418,7 @@
 
             <div class="research-note">
                 <strong>看護研究用標準調査表</strong><br>
-                本調査表は標準化されたOSA睡眠調査票MA版に基づいており、起床時の睡眠感を多次元で評価します。
+                本調査表は標準化されたOSA睡眠調査票MA版に基づいており、起床時の睡眠感を5因子で多次元評価します。
             </div>
 
             <div class="intro">
@@ -433,7 +426,7 @@
                     この調査表は、<strong>あなたの睡眠の状態についてお尋ねする</strong>ものです。
                 </div>
                 <div class="intro-text">
-                    睡眠の時刻等について記入してください。午前・午後はどちらかを○で囲んでください。
+                    昨夜の睡眠時刻について記入してください。
                 </div>
                 <div class="intro-text">
                     <strong>昨夜の睡眠の状態や今朝の心身の状態について正直にお答えください。</strong>
@@ -441,16 +434,16 @@
             </div>
 
             <div class="sleep-time-section">
-                <div class="sleep-time-title">昨夜、目覚めた時刻を記入してください</div>
+                <div class="sleep-time-title">昨夜の睡眠時刻を記入してください</div>
                 
                 <div class="time-inputs">
                     <div class="time-input-group">
-                        <label>① 昨夜、おやすみになった時刻（午前・午後）</label>
+                        <label>① 昨夜、おやすみになった時刻</label>
                         <input type="time" id="bedtime" onchange="calculateSleepDuration()">
                     </div>
                     
                     <div class="time-input-group">
-                        <label>② 今朝、目覚めた時刻（午前・午後）</label>
+                        <label>② 今朝、目覚めた時刻</label>
                         <input type="time" id="waketime" onchange="calculateSleepDuration()">
                     </div>
                 </div>
@@ -539,24 +532,24 @@
         let answers = {};
         let sleepData = {};
 
-        // OSA-MA質問項目（16項目）
+        // 正確なOSA-MA質問項目（参考サイトに基づく16項目）
         const questions = [
-            { id: 'q1', text: '疲れが残っている', reverse: false, factor: 4 },
-            { id: 'q2', text: '集中力がある', reverse: true, factor: 1 },
-            { id: 'q3', text: 'ぐっすり眠れた', reverse: true, factor: 2 },
-            { id: 'q4', text: '解放感がある', reverse: true, factor: 4 },
-            { id: 'q5', text: '身体がだるい', reverse: false, factor: 4 },
-            { id: 'q6', text: '食欲がある', reverse: true, factor: 4 },
-            { id: 'q7', text: '寝つきまでにウトウトしていた', reverse: false, factor: 2 },
-            { id: 'q8', text: '頭がはっきりしている', reverse: true, factor: 1 },
-            { id: 'q9', text: '悪夢が多かった', reverse: false, factor: 3 },
-            { id: 'q10', text: '寝付きが悪かった', reverse: false, factor: 2 },
-            { id: 'q11', text: '不快な気分である', reverse: false, factor: 4 },
-            { id: 'q12', text: 'しっかり眠れなかった', reverse: false, factor: 2 },
-            { id: 'q13', text: '睡眠中にしょっちゅう目が覚めた', reverse: false, factor: 2 },
-            { id: 'q14', text: 'いますぐ、調査にテキパキと答えられる', reverse: true, factor: 1 },
-            { id: 'q15', text: '睡眠時間が長かった', reverse: false, factor: 5 },
-            { id: 'q16', text: '眠りが浅かった', reverse: false, factor: 2 }
+            { id: 'q1', text: '疲れが残っている', factor: 4, reverse: false },           // 疲労回復
+            { id: 'q2', text: '集中力がある', factor: 1, reverse: true },                // 起床時眠気
+            { id: 'q3', text: 'ぐっすり眠れた', factor: 2, reverse: true },             // 入眠と睡眠維持
+            { id: 'q4', text: '解放感がある', factor: 1, reverse: true },               // 起床時眠気
+            { id: 'q5', text: '身体がだるい', factor: 4, reverse: false },              // 疲労回復
+            { id: 'q6', text: '食欲がある', factor: 5, reverse: true },                // 睡眠時間
+            { id: 'q7', text: '寝つきまでにウトウトしていた', factor: 2, reverse: false }, // 入眠と睡眠維持
+            { id: 'q8', text: '頭がはっきりしている', factor: 1, reverse: true },        // 起床時眠気
+            { id: 'q9', text: '悪夢が多かった', factor: 3, reverse: false },            // 夢み
+            { id: 'q10', text: '寝付きが悪かった', factor: 2, reverse: false },         // 入眠と睡眠維持
+            { id: 'q11', text: '不快な気分である', factor: 4, reverse: false },         // 疲労回復
+            { id: 'q12', text: 'しっかり眠れなかった', factor: 3, reverse: false },      // 夢み
+            { id: 'q13', text: '睡眠中にしょっちゅう目が覚めた', factor: 2, reverse: false }, // 入眠と睡眠維持
+            { id: 'q14', text: 'いますぐ、調査にテキパキと答えられる', factor: 1, reverse: true }, // 起床時眠気
+            { id: 'q15', text: '睡眠時間が長かった', factor: 5, reverse: false },       // 睡眠時間
+            { id: 'q16', text: '眠りが浅かった', factor: 2, reverse: false }            // 入眠と睡眠維持
         ];
 
         function calculateSleepDuration() {
@@ -605,7 +598,6 @@
             const question = questions[currentQuestion];
             const container = document.getElementById('questionContainer');
             
-            // より分かりやすいラベルを追加
             let html = `
                 <div class="question-card">
                     <div class="question-number">質問 ${currentQuestion + 1}</div>
@@ -637,12 +629,9 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 20px; padding: 15px; background: #f0f7ff; border-radius: 8px; font-size: 13px; color: #4a90e2;">
-                        <div style="text-align: center; font-weight: bold; margin-bottom: 8px;">選択のガイド</div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center;">
-                            <div><strong>1-2:</strong> ほとんど感じない</div>
-                            <div><strong>3-4:</strong> 強く感じる</div>
-                        </div>
+                    <div class="selection-guide">
+                        <div class="guide-title">選択のガイド</div>
+                        <div>1-2: ほとんど感じない　　3-4: 強く感じる</div>
                     </div>
                 </div>
             `;
@@ -653,7 +642,7 @@
         }
 
         function selectOption(questionId, value) {
-            answers[questionId] = value;
+            answers[questionId] = parseInt(value);
             
             // Update visual selection
             const questionCard = document.querySelector('.question-card');
@@ -667,6 +656,12 @@
         }
 
         function nextQuestion() {
+            // 回答が選択されているかチェック
+            if (!answers[questions[currentQuestion].id]) {
+                alert('選択肢を選んでください。');
+                return;
+            }
+            
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
                 showCurrentQuestion();
@@ -694,9 +689,9 @@
                 currentQuestion === questions.length - 1 ? '結果を表示' : '次へ';
         }
 
-        function calculateAndShowResults() {
+function calculateAndShowResults() {
             const factorScores = calculateFactorScores();
-            const totalScore = Object.values(factorScores).reduce((sum, score) => sum + score, 0);
+            const totalScore = calculateTotalScore(factorScores);
             
             document.getElementById('questionSection').style.display = 'none';
             document.getElementById('resultsSection').style.display = 'block';
@@ -714,35 +709,33 @@
         }
 
         function calculateFactorScores() {
-            const factorScores = {
-                factor1: 0, // 起床時眠気
-                factor2: 0, // 入眠と睡眠維持
-                factor3: 0, // 夢み
-                factor4: 0, // 疲労回復
-                factor5: 0  // 睡眠時間
-            };
-            
-            const factorCounts = {
-                factor1: 0, factor2: 0, factor3: 0, factor4: 0, factor5: 0
-            };
+            const factorSums = { factor1: 0, factor2: 0, factor3: 0, factor4: 0, factor5: 0 };
+            const factorCounts = { factor1: 0, factor2: 0, factor3: 0, factor4: 0, factor5: 0 };
 
             questions.forEach(question => {
-                const rawScore = parseInt(answers[question.id]) || 1;
-                // 逆転項目の処理
+                const rawScore = answers[question.id] || 1;
+                // 逆転項目の処理（reverse=trueの場合は5から引く）
                 const score = question.reverse ? (5 - rawScore) : rawScore;
                 
-                factorScores[`factor${question.factor}`] += score;
+                factorSums[`factor${question.factor}`] += score;
                 factorCounts[`factor${question.factor}`]++;
             });
 
             // 各因子の平均スコアを計算
-            Object.keys(factorScores).forEach(factor => {
+            const factorScores = {};
+            Object.keys(factorSums).forEach(factor => {
                 if (factorCounts[factor] > 0) {
-                    factorScores[factor] = factorScores[factor] / factorCounts[factor];
+                    factorScores[factor] = factorSums[factor] / factorCounts[factor];
+                } else {
+                    factorScores[factor] = 0;
                 }
             });
 
             return factorScores;
+        }
+
+        function calculateTotalScore(factorScores) {
+            return Object.values(factorScores).reduce((sum, score) => sum + score, 0) / 5;
         }
 
         function displayInterpretation(totalScore, factorScores) {
