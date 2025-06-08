@@ -1,4 +1,600 @@
-<div class="form-group">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSA-MA睡眠調査票 集計フォーム</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            max-width: 100%;
+            margin: 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 8px 0 0 0;
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .participant-info {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fdfdfd;
+        }
+        
+        .form-group:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .question-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .question-left-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        .question-right {
+            font-size: 13px;
+            color: #6c757d;
+            font-style: italic;
+            margin-left: 35px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            min-height: 44px;
+            text-align: center;
+        }
+        
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 6px;
+            transform: scale(1.2);
+        }
+        
+        .radio-option input[type="radio"]:checked + label {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .radio-option:has(input:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+        
+        .radio-option label {
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.3;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 0 5px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .results h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .factor-score {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .factor-name {
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .factor-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+            text-align: right;
+            padding: 8px 12px;
+            background: #f0f4ff;
+            border-radius: 6px;
+            border: 1px solid #667eea;
+        }
+        
+        .export-data {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+        
+        .liff-status {
+            background: #00C300;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .liff-error {
+            background: #ff4757;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .user-info h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6c757d;
+            word-break: break-all;
+        }
+        
+        .btn-line {
+            background: #00C300;
+            color: white;
+        }
+        
+        .btn-line:hover {
+            background: #00B900;
+            transform: translateY(-1px);
+        }
+        
+        .btn-line::before {
+            content: "📱";
+            margin-right: 8px;
+        }
+        
+        #shareLineBtn::before {
+            content: "📤";
+            margin-right: 8px;
+        }
+        
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .share-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .share-content h3 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        
+        .share-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #dee2e6;
+            white-space: pre-line;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-buttons .btn {
+            flex: 1;
+            margin: 0;
+        }
+        
+        /* タッチデバイス向けの調整 */
+        @media (hover: none) and (pointer: coarse) {
+            .radio-option:hover {
+                border-color: #e9ecef;
+                background: white;
+            }
+            
+            .radio-option:active {
+                border-color: #667eea;
+                background: #f8f9ff;
+            }
+            
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .btn:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 極小画面での調整 */
+        @media (max-width: 360px) {
+            body {
+                padding: 5px;
+                font-size: 13px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .form-container {
+                padding: 10px;
+            }
+            
+            .form-group {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .question-number {
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 11px;
+            }
+            
+            .question-text {
+                font-size: 14px;
+            }
+            
+            .radio-option {
+                padding: 10px 6px;
+                min-height: 40px;
+            }
+            
+            .radio-option label {
+                font-size: 12px;
+            }
+        }
+        
+        /* 横向き表示での調整 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .header {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .header p {
+                display: none;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+                padding: 12px;
+            }
+            
+            .radio-group {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+            
+            .radio-option {
+                padding: 8px 4px;
+                min-height: 36px;
+            }
+            
+            .radio-option label {
+                font-size: 11px;
+            }
+        }
+        
+        /* ダークモード対応 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a1a;
+                color: #ffffff;
+            }
+            
+            .form-container {
+                background: #2d2d2d;
+                color: #ffffff;
+            }
+            
+            .form-group {
+                background: #333333;
+                border-color: #444444;
+            }
+            
+            .form-group:nth-child(even) {
+                background: #2a2a2a;
+            }
+            
+            .participant-info, .user-info {
+                background: #333333;
+                border-color: #444444;
+            }
+            
+            .question-text {
+                color: #ffffff;
+            }
+            
+            .question-right {
+                background: #333333;
+                color: #cccccc;
+            }
+            
+            .radio-option {
+                background: #333333;
+                border-color: #444444;
+                color: #ffffff;
+            }
+            
+            .radio-option:has(input:checked) {
+                background: #1a1a3a;
+            }
+            
+            .input-field {
+                background: #333333;
+                border-color: #444444;
+                color: #ffffff;
+            }
+            
+            .results {
+                background: #2d2d2d;
+            }
+            
+            .factor-score {
+                background: #333333;
+                border-color: #444444;
+            }
+            
+            .factor-name {
+                color: #ffffff;
+            }
+            
+            .factor-value {
+                background: #1a1a3a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>OSA-MA睡眠調査票</h1>
+        <p>看護研究用データ収集フォーム</p>
+    </div>
+
+    <div class="form-container">
+        <div id="liffStatus" class="liff-status" style="display: none;">
+            LIFFアプリとして起動中...
+        </div>
+        
+        <div id="liffError" class="liff-error" style="display: none;">
+            LIFF初期化エラー
+        </div>
+        
+        <div id="userInfo" class="user-info" style="display: none;">
+            <h4>ユーザー情報</h4>
+            <p id="userName">名前: 取得中...</p>
+            <p id="userId">ユーザーID: 取得中...</p>
+        </div>
+
+        <form id="osaForm">
+            <div class="participant-info">
+                <div>
+                    <label for="surveyDate">調査日:</label>
+                    <input type="date" id="surveyDate" name="surveyDate" class="input-field">
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="question-text">
                     <div class="question-left">
                         <span class="question-number">1</span>
@@ -425,778 +1021,6 @@
                         <div class="question-left-text">眠りが浅かった</div>
                     </div>
                     <div class="question-right">← 眠りが深かった →</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q16_1" name="q16" value="1">
-                        <label for="q16_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q16_2" name="q16" value="2">
-                        <label for="q16_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q16_3" name="q16" value="3">
-                        <label for="q16_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q16_4" name="q16" value="4">
-                        <label for="q16_4">非常に</label>
-                    </div>
-                </div>
-            </div><!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSA-MA睡眠調査票 集計フォーム</title>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <style>
-        body {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 300;
-        }
-        
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 14px;
-        }
-        
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .participant-info {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            padding: 20px;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            background: #fdfdfd;
-        }
-        
-        .form-group:nth-child(even) {
-            background: #f8f9fa;
-        }
-        
-        .question-number {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 15px;
-            font-size: 14px;
-        }
-        
-        .question-text {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .question-left {
-            display: flex;
-            align-items: center;
-        }
-        
-        .question-right {
-            font-size: 14px;
-            color: #6c757d;
-            font-style: italic;
-        }
-        
-        .radio-group {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .radio-option {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .radio-option:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-        
-        .radio-option input[type="radio"] {
-            margin-right: 8px;
-            transform: scale(1.2);
-        }
-        
-        .radio-option input[type="radio"]:checked + label {
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .radio-option:has(input:checked) {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-        
-        .radio-option label {
-            cursor: pointer;
-            font-size: 13px;
-            line-height: 1.3;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 40px;
-            justify-content: center;
-        }
-        
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            min-width: 120px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-        
-        .results {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .results h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .factor-score {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            padding: 10px 15px;
-            margin: 8px 0;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .factor-name {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        
-        .factor-value {
-            font-weight: bold;
-            color: #667eea;
-            font-size: 18px;
-        }
-        
-        .liff-status {
-            background: #00C300;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .liff-error {
-            background: #ff4757;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .user-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .user-info h4 {
-            margin: 0 0 10px 0;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-        
-        .user-info p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #6c757d;
-        }
-        
-        .btn-line {
-            background: #00C300;
-            color: white;
-        }
-        
-        .btn-line:hover {
-            background: #00B900;
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .participant-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .radio-group {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-            
-            .radio-option {
-                padding: 10px 8px;
-            }
-            
-            .radio-option label {
-                font-size: 12px;
-            }
-            
-            .question-text {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .question-right {
-                font-size: 13px;
-                margin-left: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>OSA-MA睡眠調査票</h1>
-        <p>看護研究用データ収集フォーム</p>
-    </div>
-
-    <div class="form-container">
-        <div id="liffStatus" class="liff-status" style="display: none;">
-            LIFFアプリとして起動中...
-        </div>
-        
-        <div id="liffError" class="liff-error" style="display: none;">
-            LIFF初期化エラー
-        </div>
-        
-        <div id="userInfo" class="user-info" style="display: none;">
-            <h4>ユーザー情報</h4>
-            <p id="userName">名前: 取得中...</p>
-            <p id="userId">ユーザーID: 取得中...</p>
-        </div>
-
-        <form id="osaForm">
-            <div class="participant-info">
-                <div>
-                    <label for="surveyDate">調査日:</label>
-                    <input type="date" id="surveyDate" name="surveyDate" class="input-field">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">1</span>疲れが残っている
-                    </div>
-                    <div class="question-right">疲れが取れている</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q1_1" name="q1" value="1">
-                        <label for="q1_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q1_2" name="q1" value="2">
-                        <label for="q1_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q1_3" name="q1" value="3">
-                        <label for="q1_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q1_4" name="q1" value="4">
-                        <label for="q1_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">2</span>集中力がある
-                    </div>
-                    <div class="question-right">集中力がない</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q2_1" name="q2" value="1">
-                        <label for="q2_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q2_2" name="q2" value="2">
-                        <label for="q2_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q2_3" name="q2" value="3">
-                        <label for="q2_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q2_4" name="q2" value="4">
-                        <label for="q2_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">3</span>ぐっすり眠れた
-                    </div>
-                    <div class="question-right">ぐっすり眠れなかった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q3_1" name="q3" value="1">
-                        <label for="q3_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q3_2" name="q3" value="2">
-                        <label for="q3_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q3_3" name="q3" value="3">
-                        <label for="q3_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q3_4" name="q3" value="4">
-                        <label for="q3_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">4</span>解放感がある
-                    </div>
-                    <div class="question-right">ストレスを感じる</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q4_1" name="q4" value="1">
-                        <label for="q4_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q4_2" name="q4" value="2">
-                        <label for="q4_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q4_3" name="q4" value="3">
-                        <label for="q4_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q4_4" name="q4" value="4">
-                        <label for="q4_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">5</span>身体がだるい
-                    </div>
-                    <div class="question-right">身体がシャキッとしている</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q5_1" name="q5" value="1">
-                        <label for="q5_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q5_2" name="q5" value="2">
-                        <label for="q5_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q5_3" name="q5" value="3">
-                        <label for="q5_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q5_4" name="q5" value="4">
-                        <label for="q5_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">6</span>食欲がある
-                    </div>
-                    <div class="question-right">食欲がない</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q6_1" name="q6" value="1">
-                        <label for="q6_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q6_2" name="q6" value="2">
-                        <label for="q6_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q6_3" name="q6" value="3">
-                        <label for="q6_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q6_4" name="q6" value="4">
-                        <label for="q6_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">7</span>寝つくまでにウトウトしていた状態が多かった
-                    </div>
-                    <div class="question-right">寝つくまでにウトウトしていた状態が少なかった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q7_1" name="q7" value="1">
-                        <label for="q7_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q7_2" name="q7" value="2">
-                        <label for="q7_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q7_3" name="q7" value="3">
-                        <label for="q7_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q7_4" name="q7" value="4">
-                        <label for="q7_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">8</span>頭がはっきりしている
-                    </div>
-                    <div class="question-right">頭がボーとしている</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q8_1" name="q8" value="1">
-                        <label for="q8_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q8_2" name="q8" value="2">
-                        <label for="q8_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q8_3" name="q8" value="3">
-                        <label for="q8_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q8_4" name="q8" value="4">
-                        <label for="q8_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">9</span>悪夢が多かった
-                    </div>
-                    <div class="question-right">悪夢は見なかった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q9_1" name="q9" value="1">
-                        <label for="q9_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q9_2" name="q9" value="2">
-                        <label for="q9_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q9_3" name="q9" value="3">
-                        <label for="q9_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q9_4" name="q9" value="4">
-                        <label for="q9_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">10</span>寝付きがよかった
-                    </div>
-                    <div class="question-right">寝付きが悪かった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q10_1" name="q10" value="1">
-                        <label for="q10_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q10_2" name="q10" value="2">
-                        <label for="q10_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q10_3" name="q10" value="3">
-                        <label for="q10_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q10_4" name="q10" value="4">
-                        <label for="q10_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">11</span>不快な気分である
-                    </div>
-                    <div class="question-right">さわやかな気分である</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q11_1" name="q11" value="1">
-                        <label for="q11_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q11_2" name="q11" value="2">
-                        <label for="q11_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q11_3" name="q11" value="3">
-                        <label for="q11_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q11_4" name="q11" value="4">
-                        <label for="q11_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">12</span>しょっちゅう夢を見た
-                    </div>
-                    <div class="question-right">夢をみなかった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q12_1" name="q12" value="1">
-                        <label for="q12_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q12_2" name="q12" value="2">
-                        <label for="q12_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q12_3" name="q12" value="3">
-                        <label for="q12_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q12_4" name="q12" value="4">
-                        <label for="q12_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">13</span>睡眠中にしょっちゅう目が覚めた
-                    </div>
-                    <div class="question-right">睡眠中に目が覚めなかった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q13_1" name="q13" value="1">
-                        <label for="q13_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q13_2" name="q13" value="2">
-                        <label for="q13_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q13_3" name="q13" value="3">
-                        <label for="q13_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q13_4" name="q13" value="4">
-                        <label for="q13_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">14</span>いますぐ、調査にテキパキと答えられる
-                    </div>
-                    <div class="question-right">答えるのは面倒である</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q14_1" name="q14" value="1">
-                        <label for="q14_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q14_2" name="q14" value="2">
-                        <label for="q14_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q14_3" name="q14" value="3">
-                        <label for="q14_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q14_4" name="q14" value="4">
-                        <label for="q14_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">15</span>睡眠時間が長かった
-                    </div>
-                    <div class="question-right">睡眠時間が短かった</div>
-                </div>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="q15_1" name="q15" value="1">
-                        <label for="q15_1">非常に</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q15_2" name="q15" value="2">
-                        <label for="q15_2">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q15_3" name="q15" value="3">
-                        <label for="q15_3">やや</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="q15_4" name="q15" value="4">
-                        <label for="q15_4">非常に</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="question-text">
-                    <div class="question-left">
-                        <span class="question-number">16</span>眠りが浅かった
-                    </div>
-                    <div class="question-right">眠りが深かった</div>
                 </div>
                 <div class="radio-group">
                     <div class="radio-option">
@@ -1650,33 +1474,6 @@ ${csvData}
             if (typeof liff !== 'undefined') {
                 initializeLiff();
             }
-        });
-
-        // エンターキーでの送信を防止
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
-                e.preventDefault();
-            }
-        });
-    </script>
-                detailData += `Q${i}: ${questionTexts[i-1]} ←→ ${questionTextsRight[i-1]} → ${scoreLabels[responses[i]-1]} (${responses[i]})\n`;
-            }
-            
-            document.getElementById('exportData').textContent = detailData;
-            document.getElementById('exportData').style.display = 'block';
-            
-            // クリップボードにコピー
-            navigator.clipboard.writeText(csvData).then(() => {
-                alert('CSVデータがクリップボードにコピーされました。\n詳細データは下部に表示されています。');
-            }).catch(() => {
-                alert('データ出力が完了しました。下部の詳細データをご確認ください。');
-            });
-        }
-
-        // ページ読み込み時に今日の日付を設定
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('surveyDate').value = today;
         });
 
         // エンターキーでの送信を防止
