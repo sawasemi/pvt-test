@@ -3,873 +3,1152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>起床時睡眠感調査表（OSA-MA版）</title>
+    <title>OSA-MA睡眠調査票 集計フォーム</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
-            background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            max-width: 600px;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
         }
-
+        
         .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
             margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .title {
-            color: #333;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 8px;
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 300;
         }
-
-        .subtitle {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .copyright {
-            font-size: 11px;
-            color: #999;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        .research-note {
-            background: #e8f4fd;
-            border: 1px solid #bee5eb;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #0c5460;
-        }
-
-        .intro {
-            background: #f8f9ff;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .intro-text {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .sleep-time-section {
-            background: #fff9c4;
-            border: 1px solid #ffd93d;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .sleep-time-title {
-            color: #b8860b;
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .time-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .time-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .time-input-group label {
-            font-size: 13px;
-            color: #b8860b;
-            font-weight: 500;
-        }
-
-        .time-input-group input {
-            padding: 8px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
             font-size: 14px;
         }
-
-        .duration-display {
-            background: #fff;
-            border: 1px solid #ffd93d;
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-            font-size: 13px;
-            color: #b8860b;
-        }
-
-        .questionnaire-section {
-            display: none;
-        }
-
-        .progress-container {
-            margin-bottom: 25px;
-        }
-
-        .progress {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            background: linear-gradient(45deg, #4a90e2, #7b68ee);
-            height: 100%;
-            border-radius: 4px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .question-card {
-            background: #f8f9ff;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4a90e2;
-        }
-
-        .question-number {
-            color: #4a90e2;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .question-text {
-            font-weight: bold;
-            margin-bottom: 25px;
-            font-size: 18px;
-            text-align: center;
-            color: #333;
-        }
-
-        .scale-labels {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 15px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .scale-label {
-            text-align: center;
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .scale-options {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .scale-option {
-            flex: 1;
-            height: 50px;
-            border: 3px solid #e0e0e0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        
+        .form-container {
             background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .participant-info {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fdfdfd;
+        }
+        
+        .form-group:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .question-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            position: relative;
         }
-
-        .scale-option:hover {
-            border-color: #4a90e2;
-            background: #f0f7ff;
-            transform: translateY(-2px);
+        
+        .question-right {
+            font-size: 14px;
+            color: #6c757d;
+            font-style: italic;
         }
-
-        .scale-option.selected {
-            border-color: #4a90e2;
-            background: #4a90e2;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
-
-        .scale-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .selection-guide {
-            background: #f0f7ff;
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e9ecef;
             border-radius: 8px;
-            padding: 15px;
-            font-size: 13px;
-            color: #4a90e2;
-            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
         }
-
-        .guide-title {
+        
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .radio-option input[type="radio"]:checked + label {
+            color: #667eea;
             font-weight: bold;
-            margin-bottom: 8px;
         }
-
-        .navigation {
+        
+        .radio-option:has(input:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .radio-option label {
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
             display: flex;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 40px;
+            justify-content: center;
         }
-
+        
         .btn {
-            padding: 15px 25px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 500;
             transition: all 0.3s ease;
-            flex: 1;
+            min-width: 120px;
         }
-
+        
         .btn-primary {
-            background: linear-gradient(45deg, #4a90e2, #7b68ee);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
-
-        .btn:hover {
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
             transform: translateY(-2px);
         }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
+        
         .results {
-            display: none;
-            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
         }
-
-        .score-main {
-            background: linear-gradient(135deg, #4a90e2, #7b68ee);
-            color: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .total-score {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .score-label {
-            font-size: 18px;
+        
+        .results h3 {
+            color: #2c3e50;
             margin-bottom: 15px;
         }
-
-        .score-interpretation {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .factor-scores {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .factor-card {
-            background: #f8f9ff;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 2px solid #e0e0e0;
-        }
-
+        
         .factor-score {
-            font-size: 28px;
-            font-weight: bold;
-            color: #4a90e2;
-            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
         }
-
+        
         .factor-name {
-            font-size: 13px;
-            color: #666;
-            font-weight: bold;
+            font-weight: 500;
+            color: #2c3e50;
         }
-
-        .interpretation-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 15px;
-            padding: 20px;
+        
+        .factor-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .liff-status {
+            background: #00C300;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
             margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .interpretation-title {
-            color: #856404;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .interpretation-text {
-            color: #856404;
+            text-align: center;
             font-size: 14px;
-            line-height: 1.6;
         }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
+        
+        .liff-error {
+            background: #ff4757;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
         }
-
-        .action-buttons .btn {
-            flex: 1;
+        
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
         }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .time-inputs {
+        
+        .user-info h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .btn-line {
+            background: #00C300;
+            color: white;
+        }
+        
+        .btn-line:hover {
+            background: #00B900;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .participant-info {
                 grid-template-columns: 1fr;
             }
             
-            .scale-options {
-                gap: 5px;
+            .radio-group {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
             }
             
-            .scale-option {
-                font-size: 14px;
-                height: 45px;
+            .radio-option {
+                padding: 10px 8px;
             }
             
-            .factor-scores {
-                grid-template-columns: 1fr;
+            .radio-option label {
+                font-size: 12px;
             }
             
-            .action-buttons {
+            .question-text {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .question-right {
+                font-size: 13px;
+                margin-left: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 開始画面 -->
-        <div id="startSection">
-            <div class="header">
-                <div class="title">起床時睡眠感調査表</div>
-                <div class="subtitle">OSA Sleep Inventory (MA版)</div>
-            </div>
-            
-            <div class="copyright">
-                Copyright (C) 2004 Shuichiro Shirakawa. All Rights Reserved.
-            </div>
+    <div class="header">
+        <h1>OSA-MA睡眠調査票</h1>
+        <p>看護研究用データ収集フォーム</p>
+    </div>
 
-            <div class="research-note">
-                <strong>看護研究用標準調査表</strong><br>
-                本調査表は標準化されたOSA睡眠調査票MA版に基づいており、起床時の睡眠感を5因子で多次元評価します。
-            </div>
-
-            <div class="intro">
-                <div class="intro-text">
-                    この調査表は、<strong>あなたの睡眠の状態についてお尋ねする</strong>ものです。
-                </div>
-                <div class="intro-text">
-                    昨夜の睡眠時刻について記入してください。
-                </div>
-                <div class="intro-text">
-                    <strong>昨夜の睡眠の状態や今朝の心身の状態について正直にお答えください。</strong>
-                </div>
-            </div>
-
-            <div class="sleep-time-section">
-                <div class="sleep-time-title">昨夜の睡眠時刻を記入してください</div>
-                
-                <div class="time-inputs">
-                    <div class="time-input-group">
-                        <label>① 昨夜、おやすみになった時刻</label>
-                        <input type="time" id="bedtime" onchange="calculateSleepDuration()">
-                    </div>
-                    
-                    <div class="time-input-group">
-                        <label>② 今朝、目覚めた時刻</label>
-                        <input type="time" id="waketime" onchange="calculateSleepDuration()">
-                    </div>
-                </div>
-                
-                <div class="time-input-group">
-                    <label>③ 昨夜の睡眠時間（おおよそ）</label>
-                    <div class="duration-display" id="sleepDuration">
-                        ___時間___分
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary" onclick="startQuestionnaire()" style="width: 100%;">
-                調査を開始
-            </button>
+    <div class="form-container">
+        <div id="liffStatus" class="liff-status" style="display: none;">
+            LIFFアプリとして起動中...
+        </div>
+        
+        <div id="liffError" class="liff-error" style="display: none;">
+            LIFF初期化エラー
+        </div>
+        
+        <div id="userInfo" class="user-info" style="display: none;">
+            <h4>ユーザー情報</h4>
+            <p id="userName">名前: 取得中...</p>
+            <p id="userId">ユーザーID: 取得中...</p>
         </div>
 
-        <!-- 質問票セクション -->
-        <div id="questionSection" class="questionnaire-section">
-            <div class="progress-container">
-                <div class="progress">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div class="progress-text" id="progressText">質問 1 / 16</div>
-            </div>
-
-            <div id="questionContainer">
-                <!-- 質問が動的に表示される -->
-            </div>
-
-            <div class="navigation">
-                <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" disabled>
-                    前へ
-                </button>
-                <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
-                    次へ
-                </button>
-            </div>
-        </div>
-
-        <!-- 結果画面 -->
-        <div id="resultsSection" class="results">
-            <div class="score-main">
-                <div class="total-score" id="totalScore">0</div>
-                <div class="score-label">総合スコア</div>
-                <div class="score-interpretation" id="mainInterpretation"></div>
-            </div>
-
-            <div class="factor-scores">
-                <div class="factor-card">
-                    <div class="factor-score" id="factor1">0</div>
-                    <div class="factor-name">起床時眠気</div>
-                </div>
-                <div class="factor-card">
-                    <div class="factor-score" id="factor2">0</div>
-                    <div class="factor-name">入眠と睡眠維持</div>
-                </div>
-                <div class="factor-card">
-                    <div class="factor-score" id="factor3">0</div>
-                    <div class="factor-name">夢み</div>
-                </div>
-                <div class="factor-card">
-                    <div class="factor-score" id="factor4">0</div>
-                    <div class="factor-name">疲労回復</div>
-                </div>
-                <div class="factor-card">
-                    <div class="factor-score" id="factor5">0</div>
-                    <div class="factor-name">睡眠時間</div>
+        <form id="osaForm">
+            <div class="participant-info">
+                <div>
+                    <label for="surveyDate">調査日:</label>
+                    <input type="date" id="surveyDate" name="surveyDate" class="input-field">
                 </div>
             </div>
 
-            <div class="interpretation-box">
-                <div class="interpretation-title">結果の解釈</div>
-                <div class="interpretation-text" id="detailedInterpretation"></div>
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">1</span>疲れが残っている
+                    </div>
+                    <div class="question-right">疲れが取れている</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q1_1" name="q1" value="1">
+                        <label for="q1_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_2" name="q1" value="2">
+                        <label for="q1_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_3" name="q1" value="3">
+                        <label for="q1_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_4" name="q1" value="4">
+                        <label for="q1_4">非常に</label>
+                    </div>
+                </div>
             </div>
 
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="shareResults()">結果を共有</button>
-                <button class="btn btn-secondary" onclick="resetQuestionnaire()">再調査</button>
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">2</span>集中力がある
+                    </div>
+                    <div class="question-right">集中力がない</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q2_1" name="q2" value="1">
+                        <label for="q2_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_2" name="q2" value="2">
+                        <label for="q2_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_3" name="q2" value="3">
+                        <label for="q2_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_4" name="q2" value="4">
+                        <label for="q2_4">非常に</label>
+                    </div>
+                </div>
             </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">3</span>ぐっすり眠れた
+                    </div>
+                    <div class="question-right">ぐっすり眠れなかった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q3_1" name="q3" value="1">
+                        <label for="q3_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_2" name="q3" value="2">
+                        <label for="q3_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_3" name="q3" value="3">
+                        <label for="q3_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_4" name="q3" value="4">
+                        <label for="q3_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">4</span>解放感がある
+                    </div>
+                    <div class="question-right">ストレスを感じる</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q4_1" name="q4" value="1">
+                        <label for="q4_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_2" name="q4" value="2">
+                        <label for="q4_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_3" name="q4" value="3">
+                        <label for="q4_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_4" name="q4" value="4">
+                        <label for="q4_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">5</span>身体がだるい
+                    </div>
+                    <div class="question-right">身体がシャキッとしている</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q5_1" name="q5" value="1">
+                        <label for="q5_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_2" name="q5" value="2">
+                        <label for="q5_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_3" name="q5" value="3">
+                        <label for="q5_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_4" name="q5" value="4">
+                        <label for="q5_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">6</span>食欲がある
+                    </div>
+                    <div class="question-right">食欲がない</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q6_1" name="q6" value="1">
+                        <label for="q6_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q6_2" name="q6" value="2">
+                        <label for="q6_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q6_3" name="q6" value="3">
+                        <label for="q6_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q6_4" name="q6" value="4">
+                        <label for="q6_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">7</span>寝つくまでにウトウトしていた状態が多かった
+                    </div>
+                    <div class="question-right">寝つくまでにウトウトしていた状態が少なかった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q7_1" name="q7" value="1">
+                        <label for="q7_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q7_2" name="q7" value="2">
+                        <label for="q7_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q7_3" name="q7" value="3">
+                        <label for="q7_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q7_4" name="q7" value="4">
+                        <label for="q7_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">8</span>頭がはっきりしている
+                    </div>
+                    <div class="question-right">頭がボーとしている</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q8_1" name="q8" value="1">
+                        <label for="q8_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q8_2" name="q8" value="2">
+                        <label for="q8_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q8_3" name="q8" value="3">
+                        <label for="q8_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q8_4" name="q8" value="4">
+                        <label for="q8_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">9</span>悪夢が多かった
+                    </div>
+                    <div class="question-right">悪夢は見なかった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q9_1" name="q9" value="1">
+                        <label for="q9_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q9_2" name="q9" value="2">
+                        <label for="q9_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q9_3" name="q9" value="3">
+                        <label for="q9_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q9_4" name="q9" value="4">
+                        <label for="q9_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">10</span>寝付きがよかった
+                    </div>
+                    <div class="question-right">寝付きが悪かった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q10_1" name="q10" value="1">
+                        <label for="q10_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q10_2" name="q10" value="2">
+                        <label for="q10_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q10_3" name="q10" value="3">
+                        <label for="q10_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q10_4" name="q10" value="4">
+                        <label for="q10_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">11</span>不快な気分である
+                    </div>
+                    <div class="question-right">さわやかな気分である</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q11_1" name="q11" value="1">
+                        <label for="q11_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q11_2" name="q11" value="2">
+                        <label for="q11_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q11_3" name="q11" value="3">
+                        <label for="q11_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q11_4" name="q11" value="4">
+                        <label for="q11_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">12</span>しょっちゅう夢を見た
+                    </div>
+                    <div class="question-right">夢をみなかった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q12_1" name="q12" value="1">
+                        <label for="q12_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q12_2" name="q12" value="2">
+                        <label for="q12_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q12_3" name="q12" value="3">
+                        <label for="q12_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q12_4" name="q12" value="4">
+                        <label for="q12_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">13</span>睡眠中にしょっちゅう目が覚めた
+                    </div>
+                    <div class="question-right">睡眠中に目が覚めなかった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q13_1" name="q13" value="1">
+                        <label for="q13_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q13_2" name="q13" value="2">
+                        <label for="q13_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q13_3" name="q13" value="3">
+                        <label for="q13_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q13_4" name="q13" value="4">
+                        <label for="q13_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">14</span>いますぐ、調査にテキパキと答えられる
+                    </div>
+                    <div class="question-right">答えるのは面倒である</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q14_1" name="q14" value="1">
+                        <label for="q14_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q14_2" name="q14" value="2">
+                        <label for="q14_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q14_3" name="q14" value="3">
+                        <label for="q14_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q14_4" name="q14" value="4">
+                        <label for="q14_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">15</span>睡眠時間が長かった
+                    </div>
+                    <div class="question-right">睡眠時間が短かった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q15_1" name="q15" value="1">
+                        <label for="q15_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q15_2" name="q15" value="2">
+                        <label for="q15_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q15_3" name="q15" value="3">
+                        <label for="q15_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q15_4" name="q15" value="4">
+                        <label for="q15_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="question-text">
+                    <div class="question-left">
+                        <span class="question-number">16</span>眠りが浅かった
+                    </div>
+                    <div class="question-right">眠りが深かった</div>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q16_1" name="q16" value="1">
+                        <label for="q16_1">非常に</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q16_2" name="q16" value="2">
+                        <label for="q16_2">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q16_3" name="q16" value="3">
+                        <label for="q16_3">やや</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q16_4" name="q16" value="4">
+                        <label for="q16_4">非常に</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" onclick="showResults()">回答確認</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">リセット</button>
+                <button type="button" class="btn btn-secondary" onclick="exportData()">データ出力</button>
+                <button type="button" class="btn btn-line" onclick="sendToLine()" id="sendLineBtn" style="display: none;">LINEに送信</button>
+            </div>
+        </form>
+
+        <div id="results" class="results" style="display: none;">
+            <h3>回答確認</h3>
+            <div id="responsesList"></div>
+            <div id="exportData" class="export-data" style="display: none;"></div>
         </div>
     </div>
 
-<script>
-        let currentQuestion = 0;
-        let answers = {};
-        let sleepData = {};
-
-        // 正確なOSA-MA質問項目（参考サイトに基づく16項目）
-        const questions = [
-            { id: 'q1', text: '疲れが残っている', factor: 4, reverse: false },           // 疲労回復
-            { id: 'q2', text: '集中力がある', factor: 1, reverse: true },                // 起床時眠気
-            { id: 'q3', text: 'ぐっすり眠れた', factor: 2, reverse: true },             // 入眠と睡眠維持
-            { id: 'q4', text: '解放感がある', factor: 1, reverse: true },               // 起床時眠気
-            { id: 'q5', text: '身体がだるい', factor: 4, reverse: false },              // 疲労回復
-            { id: 'q6', text: '食欲がある', factor: 5, reverse: true },                // 睡眠時間
-            { id: 'q7', text: '寝つきまでにウトウトしていた', factor: 2, reverse: false }, // 入眠と睡眠維持
-            { id: 'q8', text: '頭がはっきりしている', factor: 1, reverse: true },        // 起床時眠気
-            { id: 'q9', text: '悪夢が多かった', factor: 3, reverse: false },            // 夢み
-            { id: 'q10', text: '寝付きが悪かった', factor: 2, reverse: false },         // 入眠と睡眠維持
-            { id: 'q11', text: '不快な気分である', factor: 4, reverse: false },         // 疲労回復
-            { id: 'q12', text: 'しっかり眠れなかった', factor: 3, reverse: false },      // 夢み
-            { id: 'q13', text: '睡眠中にしょっちゅう目が覚めた', factor: 2, reverse: false }, // 入眠と睡眠維持
-            { id: 'q14', text: 'いますぐ、調査にテキパキと答えられる', factor: 1, reverse: true }, // 起床時眠気
-            { id: 'q15', text: '睡眠時間が長かった', factor: 5, reverse: false },       // 睡眠時間
-            { id: 'q16', text: '眠りが浅かった', factor: 2, reverse: false }            // 入眠と睡眠維持
-        ];
-
-        function calculateSleepDuration() {
-            const bedtime = document.getElementById('bedtime').value;
-            const waketime = document.getElementById('waketime').value;
-            
-            if (bedtime && waketime) {
-                const bed = new Date(`2000-01-01 ${bedtime}`);
-                let wake = new Date(`2000-01-02 ${waketime}`);
+    <script>
+        // LIFF関連の変数
+        let liffInitialized = false;
+        let userProfile = null;
+        
+        // LIFF初期化
+        async function initializeLiff() {
+            try {
+                document.getElementById('liffStatus').style.display = 'block';
+                document.getElementById('liffStatus').textContent = 'LIFF初期化中...';
                 
-                // 起床時刻が就寝時刻より早い場合は同日とする
-                if (wake < bed) {
-                    wake = new Date(`2000-01-01 ${waketime}`);
-                }
+                // LIFF IDは実際の環境では適切なIDに置き換えてください
+                await liff.init({ liffId: '2007512404-yJ8kmAW9' });
                 
-                const duration = wake - bed;
-                const hours = Math.floor(duration / (1000 * 60 * 60));
-                const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-                
-                document.getElementById('sleepDuration').textContent = `${hours}時間${minutes}分`;
-                
-                sleepData.bedtime = bedtime;
-                sleepData.waketime = waketime;
-                sleepData.duration = hours + (minutes / 60);
-            }
-        }
-
-        function startQuestionnaire() {
-            // 睡眠時間が入力されているかチェック
-            if (!sleepData.bedtime || !sleepData.waketime) {
-                alert('就寝時刻と起床時刻を入力してください。');
-                return;
-            }
-            
-            document.getElementById('startSection').style.display = 'none';
-            document.getElementById('questionSection').style.display = 'block';
-            showCurrentQuestion();
-        }
-
-        function showCurrentQuestion() {
-            if (currentQuestion >= questions.length) {
-                calculateAndShowResults();
-                return;
-            }
-
-            const question = questions[currentQuestion];
-            const container = document.getElementById('questionContainer');
-            
-            let html = `
-                <div class="question-card">
-                    <div class="question-number">質問 ${currentQuestion + 1}</div>
-                    <div class="question-text">${question.text}</div>
-                    
-                    <div class="scale-labels">
-                        <div class="scale-label">全くない</div>
-                        <div class="scale-label">少しある</div>
-                        <div class="scale-label">かなりある</div>
-                        <div class="scale-label">非常にある</div>
-                    </div>
-                    
-                    <div class="scale-options">
-                        <div class="scale-option ${answers[question.id] == 1 ? 'selected' : ''}" onclick="selectOption('${question.id}', 1)">
-                            <input type="radio" name="${question.id}" value="1">
-                            1
-                        </div>
-                        <div class="scale-option ${answers[question.id] == 2 ? 'selected' : ''}" onclick="selectOption('${question.id}', 2)">
-                            <input type="radio" name="${question.id}" value="2">
-                            2
-                        </div>
-                        <div class="scale-option ${answers[question.id] == 3 ? 'selected' : ''}" onclick="selectOption('${question.id}', 3)">
-                            <input type="radio" name="${question.id}" value="3">
-                            3
-                        </div>
-                        <div class="scale-option ${answers[question.id] == 4 ? 'selected' : ''}" onclick="selectOption('${question.id}', 4)">
-                            <input type="radio" name="${question.id}" value="4">
-                            4
-                        </div>
-                    </div>
-                    
-                    <div class="selection-guide">
-                        <div class="guide-title">選択のガイド</div>
-                        <div>1-2: ほとんど感じない　　3-4: 強く感じる</div>
-                    </div>
-                </div>
-            `;
-
-            container.innerHTML = html;
-            updateProgress();
-            updateNavigation();
-        }
-
-        function selectOption(questionId, value) {
-            answers[questionId] = parseInt(value);
-            
-            // Update visual selection
-            const questionCard = document.querySelector('.question-card');
-            questionCard.querySelectorAll('.scale-option').forEach((option, index) => {
-                option.classList.remove('selected');
-                if (index + 1 === value) {
-                    option.classList.add('selected');
-                    option.querySelector('input').checked = true;
-                }
-            });
-        }
-
-        function nextQuestion() {
-            // 回答が選択されているかチェック
-            if (!answers[questions[currentQuestion].id]) {
-                alert('選択肢を選んでください。');
-                return;
-            }
-            
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showCurrentQuestion();
-            } else {
-                calculateAndShowResults();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showCurrentQuestion();
-            }
-        }
-
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `質問 ${currentQuestion + 1} / ${questions.length}`;
-        }
-
-        function updateNavigation() {
-            document.getElementById('prevBtn').disabled = currentQuestion === 0;
-            document.getElementById('nextBtn').textContent = 
-                currentQuestion === questions.length - 1 ? '結果を表示' : '次へ';
-        }
-
-function calculateAndShowResults() {
-            const factorScores = calculateFactorScores();
-            const totalScore = calculateTotalScore(factorScores);
-            
-            document.getElementById('questionSection').style.display = 'none';
-            document.getElementById('resultsSection').style.display = 'block';
-            
-            // スコア表示
-            document.getElementById('totalScore').textContent = Math.round(totalScore * 10) / 10;
-            document.getElementById('factor1').textContent = Math.round(factorScores.factor1 * 10) / 10;
-            document.getElementById('factor2').textContent = Math.round(factorScores.factor2 * 10) / 10;
-            document.getElementById('factor3').textContent = Math.round(factorScores.factor3 * 10) / 10;
-            document.getElementById('factor4').textContent = Math.round(factorScores.factor4 * 10) / 10;
-            document.getElementById('factor5').textContent = Math.round(factorScores.factor5 * 10) / 10;
-            
-            // 解釈表示
-            displayInterpretation(totalScore, factorScores);
-        }
-
-        function calculateFactorScores() {
-            const factorSums = { factor1: 0, factor2: 0, factor3: 0, factor4: 0, factor5: 0 };
-            const factorCounts = { factor1: 0, factor2: 0, factor3: 0, factor4: 0, factor5: 0 };
-
-            questions.forEach(question => {
-                const rawScore = answers[question.id] || 1;
-                // 逆転項目の処理（reverse=trueの場合は5から引く）
-                const score = question.reverse ? (5 - rawScore) : rawScore;
-                
-                factorSums[`factor${question.factor}`] += score;
-                factorCounts[`factor${question.factor}`]++;
-            });
-
-            // 各因子の平均スコアを計算
-            const factorScores = {};
-            Object.keys(factorSums).forEach(factor => {
-                if (factorCounts[factor] > 0) {
-                    factorScores[factor] = factorSums[factor] / factorCounts[factor];
-                } else {
-                    factorScores[factor] = 0;
-                }
-            });
-
-            return factorScores;
-        }
-
-        function calculateTotalScore(factorScores) {
-            return Object.values(factorScores).reduce((sum, score) => sum + score, 0) / 5;
-        }
-
-        function displayInterpretation(totalScore, factorScores) {
-            let interpretation = '';
-            let detailedText = '';
-            
-            if (totalScore <= 1.5) {
-                interpretation = '良好な睡眠状態';
-                detailedText = `
-                    <p><strong>良好な睡眠状態</strong></p>
-                    <p>起床時の睡眠感は良好です。睡眠の質、量ともに適切で、日中の活動に支障のない状態です。</p>
-                    <p><strong>推奨事項:</strong> 現在の良好な睡眠習慣を維持してください。</p>
-                `;
-            } else if (totalScore <= 2.5) {
-                interpretation = '軽度の睡眠問題';
-                detailedText = `
-                    <p><strong>軽度の睡眠問題</strong></p>
-                    <p>軽度の睡眠の質の低下が認められます。一部の睡眠要素に改善の余地があります。</p>
-                    <p><strong>推奨事項:</strong> 睡眠環境や生活習慣の見直しを検討してください。</p>
-                `;
-            } else if (totalScore <= 3.5) {
-                interpretation = '中等度の睡眠問題';
-                detailedText = `
-                    <p><strong>中等度の睡眠問題</strong></p>
-                    <p>明らかな睡眠の質の低下が認められます。日中の活動に影響が出る可能性があります。</p>
-                    <p><strong>推奨事項:</strong> 睡眠専門医への相談を検討してください。</p>
-                `;
-            } else {
-                interpretation = '重度の睡眠問題';
-                detailedText = `
-                    <p><strong>重度の睡眠問題</strong></p>
-                    <p>重度の睡眠の質の低下が認められます。医学的な評価と治療が必要な可能性があります。</p>
-                    <p><strong>推奨事項:</strong> 速やかに睡眠専門医を受診してください。</p>
-                `;
-            }
-            
-            // 因子別の分析を追加
-            detailedText += '<br><p><strong>因子別分析:</strong></p><ul>';
-            
-            if (factorScores.factor1 > 3.0) {
-                detailedText += '<li>起床時の眠気が強い傾向があります</li>';
-            }
-            if (factorScores.factor2 > 3.0) {
-                detailedText += '<li>入眠困難や睡眠維持の問題があります</li>';
-            }
-            if (factorScores.factor3 > 3.0) {
-                detailedText += '<li>夢見に関する問題があります</li>';
-            }
-            if (factorScores.factor4 > 3.0) {
-                detailedText += '<li>疲労回復感が不十分です</li>';
-            }
-            if (factorScores.factor5 > 3.0) {
-                detailedText += '<li>睡眠時間に関する問題があります</li>';
-            }
-            
-            detailedText += '</ul>';
-            
-            document.getElementById('mainInterpretation').textContent = interpretation;
-            document.getElementById('detailedInterpretation').innerHTML = detailedText;
-        }
-
-        function shareResults() {
-            const totalScore = document.getElementById('totalScore').textContent;
-            const interpretation = document.getElementById('mainInterpretation').textContent;
-            
-            const shareText = `😴 OSA睡眠調査票（MA版）結果 😴\n\n` +
-                `📊 総合スコア: ${totalScore}点\n` +
-                `💤 評価: ${interpretation}\n` +
-                `⏰ 睡眠時間: ${sleepData.duration ? Math.round(sleepData.duration * 10) / 10 : '未記録'}時間\n\n` +
-                `📝 因子別スコア:\n` +
-                `・起床時眠気: ${document.getElementById('factor1').textContent}点\n` +
-                `・入眠と睡眠維持: ${document.getElementById('factor2').textContent}点\n` +
-                `・夢み: ${document.getElementById('factor3').textContent}点\n` +
-                `・疲労回復: ${document.getElementById('factor4').textContent}点\n` +
-                `・睡眠時間: ${document.getElementById('factor5').textContent}点\n\n` +
-                `※ 1.0-1.5: 良好、1.6-2.5: 軽度問題、2.6-3.5: 中等度問題、3.6-4.0: 重度問題\n\n` +
-                `#OSA睡眠調査票 #MA版 #起床時睡眠感 #看護研究`;
-
-            if (typeof liff !== 'undefined' && liff.isApiAvailable('shareTargetPicker')) {
-                liff.shareTargetPicker([
-                    {
-                        type: 'text',
-                        text: shareText
-                    }
-                ]);
-            } else if (navigator.share) {
-                navigator.share({
-                    title: 'OSA睡眠調査票（MA版）結果',
-                    text: shareText
-                });
-            } else {
-                navigator.clipboard.writeText(shareText).then(() => {
-                    alert('結果をクリップボードにコピーしました！LINEで貼り付けて共有してください。');
-                }).catch(() => {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = shareText;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    alert('結果をクリップボードにコピーしました！');
-                });
-            }
-        }
-
-        function resetQuestionnaire() {
-            currentQuestion = 0;
-            answers = {};
-            sleepData = {};
-            
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('startSection').style.display = 'block';
-            
-            // フォームリセット
-            document.getElementById('bedtime').value = '';
-            document.getElementById('waketime').value = '';
-            document.getElementById('sleepDuration').textContent = '___時間___分';
-        }
-
-        // LINE LIFF初期化
-        if (typeof liff !== 'undefined') {
-            liff.init({
-                liffId: '2007512404-yJ8kmAW9' // ← ここに取得したLIFF IDを入力してください
-            }).then(() => {
-                console.log('LIFF初期化成功');
                 if (liff.isLoggedIn()) {
-                    liff.getProfile().then(profile => {
-                        console.log('ユーザー名:', profile.displayName);
-                    });
+                    // ユーザープロフィール取得
+                    userProfile = await liff.getProfile();
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('userName').textContent = `名前: ${userProfile.displayName}`;
+                    document.getElementById('userId').textContent = `ユーザーID: ${userProfile.userId}`;
+                    document.getElementById('sendLineBtn').style.display = 'inline-block';
+                    
+                    document.getElementById('liffStatus').textContent = 'LINE連携完了';
+                    setTimeout(() => {
+                        document.getElementById('liffStatus').style.display = 'none';
+                    }, 2000);
+                } else {
+                    liff.login();
                 }
-            }).catch((err) => {
-                console.error('LIFF初期化エラー:', err);
+                
+                liffInitialized = true;
+            } catch (error) {
+                console.error('LIFF初期化エラー:', error);
+                document.getElementById('liffStatus').style.display = 'none';
+                document.getElementById('liffError').style.display = 'block';
+                document.getElementById('liffError').textContent = 'LIFF初期化に失敗しました。ブラウザでも利用可能です。';
+            }
+        }
+        
+        // LINEに結果を送信
+        async function sendToLine() {
+            if (!liffInitialized || !liff.isLoggedIn()) {
+                alert('LINE連携が必要です。');
+                return;
+            }
+            
+            const form = document.getElementById('osaForm');
+            const formData = new FormData(form);
+            
+            // 全項目の回答チェック
+            let allAnswered = true;
+            const responses = {};
+            
+            for (let i = 1; i <= 16; i++) {
+                const value = formData.get(`q${i}`);
+                if (!value) {
+                    allAnswered = false;
+                    break;
+                }
+                responses[i] = parseInt(value);
+            }
+            
+            if (!allAnswered) {
+                alert('すべての項目に回答してから送信してください。');
+                return;
+            }
+            
+            // 調査日
+            const surveyDate = formData.get('surveyDate') || '';
+            
+            // LINEメッセージ作成
+            const scoreLabels = ["非常に", "やや", "やや", "非常に"];
+            let messageText = `OSA-MA睡眠調査票 結果\n調査日: ${surveyDate}\n\n`;
+            
+            // 主要な回答のみを抜粋
+            const keyQuestions = [
+                { num: 1, text: "疲れ" },
+                { num: 3, text: "熟睡感" },
+                { num: 8, text: "頭の状態" },
+                { num: 10, text: "寝付き" },
+                { num: 13, text: "中途覚醒" }
+            ];
+            
+            keyQuestions.forEach(q => {
+                messageText += `${q.text}: ${scoreLabels[responses[q.num]-1]}\n`;
+            });
+            
+            messageText += `\n詳細データはCSV形式で別途出力可能です。`;
+            
+            try {
+                await liff.sendMessages([{
+                    type: 'text',
+                    text: messageText
+                }]);
+                
+                alert('結果をLINEに送信しました！');
+            } catch (error) {
+                console.error('LINE送信エラー:', error);
+                alert('LINE送信に失敗しました。');
+            }
+        }
+
+        function showResults() {
+            const form = document.getElementById('osaForm');
+            const formData = new FormData(form);
+            
+            // 全項目の回答チェック
+            let allAnswered = true;
+            const responses = {};
+            
+            for (let i = 1; i <= 16; i++) {
+                const value = formData.get(`q${i}`);
+                if (!value) {
+                    allAnswered = false;
+                    break;
+                }
+                responses[i] = parseInt(value);
+            }
+            
+            if (!allAnswered) {
+                alert('すべての項目に回答してください。');
+                return;
+            }
+            
+            // 結果表示
+            displayResponses(responses);
+        }
+
+        function displayResponses(responses) {
+            const resultsDiv = document.getElementById('results');
+            const responsesListDiv = document.getElementById('responsesList');
+            
+            const questionTexts = [
+                "疲れが残っている",
+                "集中力がある", 
+                "ぐっすり眠れた",
+                "解放感がある",
+                "身体がだるい",
+                "食欲がある",
+                "寝つくまでにウトウトしていた状態が多かった",
+                "頭がはっきりしている",
+                "悪夢が多かった",
+                "寝付きがよかった",
+                "不快な気分である",
+                "しょっちゅう夢を見た",
+                "睡眠中にしょっちゅう目が覚めた",
+                "いますぐ、調査にテキパキと答えられる",
+                "睡眠時間が長かった",
+                "眠りが浅かった"
+            ];
+
+            const questionTextsRight = [
+                "疲れが取れている",
+                "集中力がない",
+                "ぐっすり眠れなかった", 
+                "ストレスを感じる",
+                "身体がシャキッとしている",
+                "食欲がない",
+                "寝つくまでにウトウトしていた状態が少なかった",
+                "頭がボーとしている",
+                "悪夢は見なかった",
+                "寝付きが悪かった",
+                "さわやかな気分である",
+                "夢をみなかった",
+                "睡眠中に目が覚めなかった",
+                "答えるのは面倒である",
+                "睡眠時間が短かった",
+                "眠りが深かった"
+            ];
+            
+            const scoreLabels = ["非常に", "やや", "やや", "非常に"];
+            
+            let html = '';
+            for (let i = 1; i <= 16; i++) {
+                html += `
+                    <div class="factor-score">
+                        <div class="factor-name">Q${i}: ${questionTexts[i-1]} ←→ ${questionTextsRight[i-1]}</div>
+                        <div class="factor-value">${scoreLabels[responses[i]-1]} (${responses[i]})</div>
+                    </div>
+                `;
+            }
+            
+            responsesListDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            
+            // 結果までスクロール
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('入力内容をすべてリセットしますか？')) {
+                document.getElementById('osaForm').reset();
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('exportData').style.display = 'none';
+                
+                // 今日の日付を再設定
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('surveyDate').value = today;
+            }
+        }
+
+        function exportData() {
+            const form = document.getElementById('osaForm');
+            const formData = new FormData(form);
+            
+            // 調査日
+            const surveyDate = formData.get('surveyDate') || '';
+            
+            // 全項目の回答チェック
+            let allAnswered = true;
+            const responses = {};
+            
+            for (let i = 1; i <= 16; i++) {
+                const value = formData.get(`q${i}`);
+                if (!value) {
+                    allAnswered = false;
+                    break;
+                }
+                responses[i] = parseInt(value);
+            }
+            
+            if (!allAnswered) {
+                alert('すべての項目に回答してから出力してください。');
+                return;
+            }
+            
+            // ユーザー情報を含むCSV形式でデータ出力
+            let csvData = 'SurveyDate,';
+            if (userProfile) {
+                csvData += 'UserName,UserId,';
+            }
+            for (let i = 1; i <= 16; i++) {
+                csvData += `Q${i},`;
+            }
+            csvData = csvData.slice(0, -1) + '\n'; // 最後のカンマを削除して改行
+            
+            csvData += `${surveyDate},`;
+            if (userProfile) {
+                csvData += `"${userProfile.displayName}",${userProfile.userId},`;
+            }
+            for (let i = 1; i <= 16; i++) {
+                csvData += `${responses[i]},`;
+            }
+            csvData = csvData.slice(0, -1); // 最後のカンマを削除
+            
+            // 詳細データ表示
+            let detailData = `=== OSA-MA睡眠調査票 データ出力 ===
+調査日: ${surveyDate}`;
+            
+            if (userProfile) {
+                detailData += `
+ユーザー名: ${userProfile.displayName}
+ユーザーID: ${userProfile.userId}`;
+            }
+            
+            detailData += `
+
+=== 原回答データ (CSV形式) ===
+${csvData}
+
+=== 項目別回答詳細 ===
+`;
+            
+            const questionTexts = [
+                "疲れが残っている",
+                "集中力がある", 
+                "ぐっすり眠れた",
+                "解放感がある",
+                "身体がだるい",
+                "食欲がある",
+                "寝つくまでにウトウトしていた状態が多かった",
+                "頭がはっきりしている",
+                "悪夢が多かった",
+                "寝付きがよかった",
+                "不快な気分である",
+                "しょっちゅう夢を見た",
+                "睡眠中にしょっちゅう目が覚めた",
+                "いますぐ、調査にテキパキと答えられる",
+                "睡眠時間が長かった",
+                "眠りが浅かった"
+            ];
+
+            const questionTextsRight = [
+                "疲れが取れている",
+                "集中力がない",
+                "ぐっすり眠れなかった", 
+                "ストレスを感じる",
+                "身体がシャキッとしている",
+                "食欲がない",
+                "寝つくまでにウトウトしていた状態が少なかった",
+                "頭がボーとしている",
+                "悪夢は見なかった",
+                "寝付きが悪かった",
+                "さわやかな気分である",
+                "夢をみなかった",
+                "睡眠中に目が覚めなかった",
+                "答えるのは面倒である",
+                "睡眠時間が短かった",
+                "眠りが深かった"
+            ];
+            
+            const scoreLabels = ["非常に", "やや", "やや", "非常に"];
+            
+            for (let i = 1; i <= 16; i++) {
+                detailData += `Q${i}: ${questionTexts[i-1]} ←→ ${questionTextsRight[i-1]} → ${scoreLabels[responses[i]-1]} (${responses[i]})\n`;
+            }
+            
+            document.getElementById('exportData').textContent = detailData;
+            document.getElementById('exportData').style.display = 'block';
+            
+            // クリップボードにコピー
+            navigator.clipboard.writeText(csvData).then(() => {
+                alert('CSVデータがクリップボードにコピーされました。\n詳細データは下部に表示されています。');
+            }).catch(() => {
+                alert('データ出力が完了しました。下部の詳細データをご確認ください。');
             });
         }
+
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('surveyDate').value = today;
+            
+            // LIFF初期化を試行
+            if (typeof liff !== 'undefined') {
+                initializeLiff();
+            }
+        });
+
+        // エンターキーでの送信を防止
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+        });
+    </script>
+                detailData += `Q${i}: ${questionTexts[i-1]} ←→ ${questionTextsRight[i-1]} → ${scoreLabels[responses[i]-1]} (${responses[i]})\n`;
+            }
+            
+            document.getElementById('exportData').textContent = detailData;
+            document.getElementById('exportData').style.display = 'block';
+            
+            // クリップボードにコピー
+            navigator.clipboard.writeText(csvData).then(() => {
+                alert('CSVデータがクリップボードにコピーされました。\n詳細データは下部に表示されています。');
+            }).catch(() => {
+                alert('データ出力が完了しました。下部の詳細データをご確認ください。');
+            });
+        }
+
+        // ページ読み込み時に今日の日付を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('surveyDate').value = today;
+        });
+
+        // エンターキーでの送信を防止
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
