@@ -666,7 +666,7 @@
             document.getElementById('liffStatus').style.display = 'block';
             document.getElementById('liffStatus').textContent = 'LIFF初期化中...';
             
-            await liff.init({ liffId: '2007512404-5D9d4gBM' });
+            awaitliff.init({ liffId:'2007512404-5D9d4gBM' });
             
             if (liff.isLoggedIn()) {
                 userProfile = await liff.getProfile();
