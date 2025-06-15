@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -16,511 +15,530 @@
             line-height: 1.6;
             font-size: 14px;
         }
-
-```
-    .header {
-        background: linear-gradient(135deg, #4169e1 0%, #6495ed 100%);
-        color: white;
-        padding: 20px 15px;
-        border-radius: 10px;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .header h1 {
-        margin: 0;
-        font-size: 20px;
-        font-weight: 300;
-    }
-    
-    .header p {
-        margin: 8px 0 0 0;
-        opacity: 0.9;
-        font-size: 13px;
-    }
-    
-    .form-container {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-    
-    .survey-info {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 25px;
-        padding: 15px;
-        background: #f0f8ff;
-        border-radius: 8px;
-        border: 1px solid #4169e1;
-    }
-    
-    .instruction {
-        background: #e6f3ff;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 25px;
-        border-left: 4px solid #4169e1;
-    }
-    
-    .instruction h3 {
-        margin: 0 0 10px 0;
-        color: #2c3e50;
-        font-size: 16px;
-    }
-    
-    .instruction p {
-        margin: 0;
-        color: #333;
-        font-size: 15px;
-        font-weight: 500;
-    }
-    
-    .options-container {
-        margin-top: 25px;
-    }
-    
-    .option-item {
-        margin-bottom: 15px;
-        padding: 15px;
-        border: 2px solid #e9ecef;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: white;
-        position: relative;
-    }
-    
-    .option-item:hover {
-        border-color: #4169e1;
-        background: #f8fbff;
-        transform: translateY(-1px);
-        box-shadow: 0 3px 10px rgba(65, 105, 225, 0.15);
-    }
-    
-    .option-item:has(input:checked) {
-        border-color: #4169e1;
-        background: #f0f8ff;
-        box-shadow: 0 3px 15px rgba(65, 105, 225, 0.25);
-    }
-    
-    .option-content {
-        display: flex;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .option-number {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 35px;
-        height: 35px;
-        background: #4169e1;
-        color: white;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 16px;
-        flex-shrink: 0;
-    }
-    
-    .option-item:has(input:checked) .option-number {
-        background: #ff6b6b;
-        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
-    }
-    
-    .option-text {
-        flex: 1;
-        font-size: 15px;
-        line-height: 1.5;
-        color: #2c3e50;
-        padding-top: 5px;
-    }
-    
-    .option-radio {
-        position: absolute;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-        margin: 0;
-    }
-    
-    .input-field {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e9ecef;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: border-color 0.3s ease;
-        box-sizing: border-box;
-    }
-    
-    .input-field:focus {
-        outline: none;
-        border-color: #4169e1;
-    }
-    
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 30px;
-        padding: 0 5px;
-    }
-    
-    .btn {
-        width: 100%;
-        padding: 15px 20px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        min-height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    
-    .btn-primary {
-        background: linear-gradient(135deg, #4169e1 0%, #6495ed 100%);
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(65, 105, 225, 0.4);
-    }
-    
-    .btn-secondary {
-        background: #6c757d;
-        color: white;
-    }
-    
-    .btn-secondary:hover {
-        background: #5a6268;
-        transform: translateY(-1px);
-    }
-    
-    .results {
-        margin-top: 20px;
-        padding: 20px;
-        background: #f0f8ff;
-        border-radius: 10px;
-        border-left: 4px solid #4169e1;
-    }
-    
-    .results h3 {
-        color: #2c3e50;
-        margin-bottom: 15px;
-        font-size: 18px;
-    }
-    
-    .result-item {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
-        margin: 10px 0;
-        background: white;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    
-    .result-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .result-number {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        background: #4169e1;
-        color: white;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 14px;
-    }
-    
-    .result-label {
-        font-weight: bold;
-        color: #4169e1;
-        font-size: 16px;
-    }
-    
-    .result-description {
-        color: #2c3e50;
-        font-size: 14px;
-        line-height: 1.5;
-        margin-left: 40px;
-    }
-    
-    .export-data {
-        margin-top: 15px;
-        padding: 15px;
-        background: #e9ecef;
-        border-radius: 6px;
-        font-family: monospace;
-        font-size: 11px;
-        white-space: pre-wrap;
-        max-height: 200px;
-        overflow-y: auto;
-        line-height: 1.4;
-    }
-    
-    .liff-status {
-        background: #00C300;
-        color: white;
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        text-align: center;
-        font-size: 14px;
-    }
-    
-    .liff-error {
-        background: #ff4757;
-        color: white;
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        text-align: center;
-        font-size: 14px;
-    }
-    
-    .user-info {
-        background: #f0f8ff;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #dee2e6;
-    }
-    
-    .user-info h4 {
-        margin: 0 0 10px 0;
-        color: #2c3e50;
-        font-size: 16px;
-    }
-    
-    .user-info p {
-        margin: 5px 0;
-        font-size: 14px;
-        color: #6c757d;
-        word-break: break-all;
-    }
-    
-    .btn-line {
-        background: #00C300;
-        color: white;
-    }
-    
-    .btn-line:hover {
-        background: #00B900;
-        transform: translateY(-1px);
-    }
-    
-    .btn-line::before {
-        content: "📱";
-        margin-right: 8px;
-    }
-    
-    #shareLineBtn::before {
-        content: "📤";
-        margin-right: 8px;
-    }
-    
-    .share-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    
-    .share-content {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        max-width: 90%;
-        width: 400px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .share-content h3 {
-        margin: 0 0 20px 0;
-        color: #2c3e50;
-        font-size: 18px;
-    }
-    
-    .share-preview {
-        background: #f0f8ff;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 15px 0;
-        text-align: left;
-        font-size: 14px;
-        line-height: 1.5;
-        border: 1px solid #dee2e6;
-        white-space: pre-line;
-    }
-    
-    .share-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-    }
-    
-    .share-buttons .btn {
-        flex: 1;
-        margin: 0;
-    }
-    
-    /* タッチデバイス向けの調整 */
-    @media (hover: none) and (pointer: coarse) {
-        .option-item:hover {
-            border-color: #e9ecef;
-            background: white;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .option-item:active {
-            border-color: #4169e1;
-            background: #f8fbff;
-        }
-        
-        .btn:hover {
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .btn:active {
-            transform: scale(0.98);
-        }
-    }
-    
-    /* 極小画面での調整 */
-    @media (max-width: 360px) {
-        body {
-            padding: 5px;
-            font-size: 13px;
-        }
         
         .header {
-            padding: 15px 10px;
+            background: linear-gradient(135deg, #4169e1 0%, #6495ed 100%);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .header h1 {
-            font-size: 18px;
-        }
-        
-        .form-container {
-            padding: 15px;
-        }
-        
-        .option-item {
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .option-number {
-            width: 30px;
-            height: 30px;
-            font-size: 14px;
-        }
-        
-        .option-text {
-            font-size: 14px;
-        }
-    }
-    
-    /* 横向き表示での調整 */
-    @media (orientation: landscape) and (max-height: 500px) {
-        .header {
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .header h1 {
-            font-size: 18px;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 300;
         }
         
         .header p {
-            display: none;
-        }
-        
-        .option-item {
-            margin-bottom: 10px;
-            padding: 12px;
-        }
-    }
-    
-    /* ダークモード対応 */
-    @media (prefers-color-scheme: dark) {
-        body {
-            background-color: #1a1a1a;
-            color: #ffffff;
+            margin: 8px 0 0 0;
+            opacity: 0.9;
+            font-size: 13px;
         }
         
         .form-container {
-            background: #2d2d2d;
-            color: #ffffff;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         
-        .option-item {
-            background: #333333;
-            border-color: #444444;
-            color: #ffffff;
-        }
-        
-        .option-item:has(input:checked) {
-            background: #1a1a3a;
-        }
-        
-        .survey-info, .user-info {
-            background: #333333;
-            border-color: #444444;
+        .survey-info {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #4169e1;
         }
         
         .instruction {
-            background: #2a2a3a;
+            background: #e6f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4169e1;
+        }
+        
+        .instruction h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .instruction p {
+            margin: 0;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .options-container {
+            margin-top: 25px;
+        }
+        
+        .option-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+        
+        .option-item:hover {
+            border-color: #4169e1;
+            background: #f8fbff;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(65, 105, 225, 0.15);
+        }
+        
+        .option-item:has(input:checked) {
+            border-color: #4169e1;
+            background: #f0f8ff;
+            box-shadow: 0 3px 15px rgba(65, 105, 225, 0.25);
+        }
+        
+        .option-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .option-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: #4169e1;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .option-item:has(input:checked) .option-number {
+            background: #ff6b6b;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+        }
+        
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2c3e50;
+            padding-top: 5px;
+        }
+        
+        .option-radio {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            margin: 0;
         }
         
         .input-field {
-            background: #333333;
-            border-color: #444444;
-            color: #ffffff;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #4169e1;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 0 5px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4169e1 0%, #6495ed 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(65, 105, 225, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        
+        .btn-line {
+            background: #00C300;
+            color: white;
+        }
+        
+        .btn-line:hover {
+            background: #00B900;
+            transform: translateY(-1px);
+        }
+        
+        .btn-line::before {
+            content: "📱";
+            margin-right: 8px;
+        }
+        
+        #shareLineBtn::before {
+            content: "📤";
+            margin-right: 8px;
         }
         
         .results {
-            background: #2d2d2d;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            border-left: 4px solid #4169e1;
+        }
+        
+        .results h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
         
         .result-item {
-            background: #333333;
-            border-color: #444444;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-    }
-</style>
-```
-
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #4169e1;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .result-label {
+            font-weight: bold;
+            color: #4169e1;
+            font-size: 16px;
+        }
+        
+        .result-description {
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-left: 40px;
+        }
+        
+        .export-data {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+        
+        .liff-status {
+            background: #00C300;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .liff-error {
+            background: #ff4757;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .user-info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .user-info h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6c757d;
+            word-break: break-all;
+        }
+        
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .share-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .share-content h3 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        
+        .share-preview {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #dee2e6;
+            white-space: pre-line;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-buttons .btn {
+            flex: 1;
+            margin: 0;
+        }
+        
+        /* タッチデバイス向けの調整 */
+        @media (hover: none) and (pointer: coarse) {
+            .option-item:hover {
+                border-color: #e9ecef;
+                background: white;
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .option-item:active {
+                border-color: #4169e1;
+                background: #f8fbff;
+            }
+            
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .btn:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 極小画面での調整 */
+        @media (max-width: 360px) {
+            body {
+                padding: 5px;
+                font-size: 13px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .option-item {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+            
+            .option-number {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .option-text {
+                font-size: 14px;
+            }
+        }
+        
+        /* ダークモード対応 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a1a;
+                color: #ffffff;
+            }
+            
+            .form-container {
+                background: #2d2d2d;
+                color: #ffffff;
+            }
+            
+            .option-item {
+                background: #333333;
+                border-color: #444444;
+            }
+            
+            .option-item:has(input:checked) {
+                background: #1a1a3a;
+                border-color: #4169e1;
+            }
+            
+            .option-text {
+                color: #ffffff;
+            }
+            
+            .survey-info, .user-info {
+                background: #333333;
+                border-color: #4169e1;
+                color: #ffffff;
+            }
+            
+            .instruction {
+                background: #2a2a3a;
+                color: #ffffff;
+            }
+            
+            .instruction h3 {
+                color: #ffffff;
+            }
+            
+            .input-field {
+                background: #333333;
+                border-color: #444444;
+                color: #ffffff;
+            }
+            
+            .results {
+                background: #2d2d2d;
+                color: #ffffff;
+            }
+            
+            .results h3 {
+                color: #ffffff;
+            }
+            
+            .result-item {
+                background: #333333;
+                border-color: #444444;
+            }
+            
+            .result-label {
+                color: #6495ed;
+            }
+            
+            .result-description {
+                color: #ffffff;
+            }
+            
+            .share-content {
+                background: #2d2d2d;
+                color: #ffffff;
+            }
+            
+            .share-content h3 {
+                color: #ffffff;
+            }
+            
+            .share-preview {
+                background: #333333;
+                border-color: #444444;
+                color: #ffffff;
+            }
+            
+            .export-data {
+                background: #333333;
+                color: #ffffff;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -528,332 +546,408 @@
         <p>Stanford Sleepiness Scale</p>
     </div>
 
-```
-<div class="form-container">
-    <div id="liffStatus" class="liff-status" style="display: none;">
-        LIFFアプリとして起動中...
-    </div>
-    
-    <div id="liffError" class="liff-error" style="display: none;">
-        LIFF初期化エラー
-    </div>
-    
-    <div id="userInfo" class="user-info" style="display: none;">
-        <h4>ユーザー情報</h4>
-        <p id="userName">名前: 取得中...</p>
-        <p id="userId">ユーザーID: 取得中...</p>
-    </div>
-
-    <form id="sssForm">
-        <div class="survey-info">
-            <div>
-                <label for="surveyDate">調査日時:</label>
-                <input type="datetime-local" id="surveyDate" name="surveyDate" class="input-field">
-            </div>
+    <div class="form-container">
+        <div id="liffStatus" class="liff-status" style="display: none;">
+            LIFFアプリとして起動中...
+        </div>
+        
+        <div id="liffError" class="liff-error" style="display: none;">
+            LIFF初期化エラー
+        </div>
+        
+        <div id="userInfo" class="user-info" style="display: none;">
+            <h4>ユーザー情報</h4>
+            <p id="userName">名前: 取得中...</p>
+            <p id="userId">ユーザーID: 取得中...</p>
         </div>
 
-        <div class="instruction">
-            <h3>📋 調査内容</h3>
-            <p>現在のあなたの眠気について、最も近いものを一つ選び番号をタップしてください</p>
-        </div>
-
-        <div class="options-container">
-            <div class="option-item">
-                <input type="radio" id="sss1" name="sleepiness" value="1" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">1</div>
-                    <div class="option-text">やる気があり、活発で、頭がさえていて、眠くない感じ</div>
+        <form id="sssForm">
+            <div class="survey-info">
+                <div>
+                    <label for="surveyDate">調査日時:</label>
+                    <input type="datetime-local" id="surveyDate" name="surveyDate" class="input-field">
                 </div>
             </div>
 
-            <div class="option-item">
-                <input type="radio" id="sss2" name="sleepiness" value="2" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">2</div>
-                    <div class="option-text">最高とはいえないまでも、頭の働きが活発、集中していられる</div>
+            <div class="instruction">
+                <h3>📋 調査内容</h3>
+                <p>現在のあなたの眠気について、最も近いものを一つ選び番号をタップしてください</p>
+            </div>
+
+            <div class="options-container">
+                <div class="option-item">
+                    <input type="radio" id="sss1" name="sleepiness" value="1" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">1</div>
+                        <div class="option-text">やる気があり、活発で、頭がさえていて、眠くない感じ</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss2" name="sleepiness" value="2" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">2</div>
+                        <div class="option-text">最高とはいえないまでも、頭の働きが活発、集中していられる</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss3" name="sleepiness" value="3" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">3</div>
+                        <div class="option-text">くつろいで起きている、しかしどちらかというとすこし頭がぼんやりし反応が悪い</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss4" name="sleepiness" value="4" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">4</div>
+                        <div class="option-text">すこしぼんやりしていて、何かしたいと思わない</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss5" name="sleepiness" value="5" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">5</div>
+                        <div class="option-text">ぼんやりしている、集中していられない、起きているのが困難</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss6" name="sleepiness" value="6" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">6</div>
+                        <div class="option-text">眠いので横になりたい、ぼおっとしている</div>
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <input type="radio" id="sss7" name="sleepiness" value="7" class="option-radio">
+                    <div class="option-content">
+                        <div class="option-number">7</div>
+                        <div class="option-text">まどろんでいる、起きていられない、すぐにねむってしまいそうだ</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="option-item">
-                <input type="radio" id="sss3" name="sleepiness" value="3" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">3</div>
-                    <div class="option-text">くつろいで起きている、しかしどちらかというとすこし頭がぼんやりし反応が悪い</div>
-                </div>
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" onclick="showResults()">結果確認</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">リセット</button>
+                <button type="button" class="btn btn-secondary" onclick="exportData()">データ出力</button>
+                <button type="button" class="btn btn-line" onclick="sendToLine()" id="sendLineBtn" style="display: none;">LINEに送信</button>
+                <button type="button" class="btn btn-line" onclick="shareToLine()" id="shareLineBtn">LINE共有</button>
             </div>
+        </form>
 
-            <div class="option-item">
-                <input type="radio" id="sss4" name="sleepiness" value="4" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">4</div>
-                    <div class="option-text">すこしぼんやりしていて、何かしたいと思わない</div>
-                </div>
-            </div>
-
-            <div class="option-item">
-                <input type="radio" id="sss5" name="sleepiness" value="5" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">5</div>
-                    <div class="option-text">ぼんやりしている、集中していられない、起きているのが困難</div>
-                </div>
-            </div>
-
-            <div class="option-item">
-                <input type="radio" id="sss6" name="sleepiness" value="6" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">6</div>
-                    <div class="option-text">眠いので横になりたい、ぼおっとしている</div>
-                </div>
-            </div>
-
-            <div class="option-item">
-                <input type="radio" id="sss7" name="sleepiness" value="7" class="option-radio">
-                <div class="option-content">
-                    <div class="option-number">7</div>
-                    <div class="option-text">まどろんでいる、起きていられない、すぐにねむってしまいそうだ</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button type="button" class="btn btn-primary" onclick="showResults()">結果確認</button>
-            <button type="button" class="btn btn-secondary" onclick="resetForm()">リセット</button>
-            <button type="button" class="btn btn-secondary" onclick="exportData()">データ出力</button>
-            <button type="button" class="btn btn-line" onclick="sendToLine()" id="sendLineBtn" style="display: none;">LINEに送信</button>
-            <button type="button" class="btn btn-line" onclick="shareToLine()" id="shareLineBtn">LINE共有</button>
-        </div>
-    </form>
-
-    <div id="results" class="results" style="display: none;">
-        <h3>📊 結果確認</h3>
-        <div id="resultContent"></div>
-        <div id="exportData" class="export-data" style="display: none;"></div>
-    </div>
-</div>
-
-<!-- 共有モーダル -->
-<div id="shareModal" class="share-modal">
-    <div class="share-content">
-        <h3>📊 眠気尺度結果を共有</h3>
-        <div id="sharePreview" class="share-preview"></div>
-        <div class="share-buttons">
-            <button class="btn btn-line" onclick="executeLineShare()">LINE で共有</button>
-            <button class="btn btn-secondary" onclick="copyShareText()">テキストをコピー</button>
-            <button class="btn btn-secondary" onclick="closeShareModal()">キャンセル</button>
+        <div id="results" class="results" style="display: none;">
+            <h3>📊 結果確認</h3>
+            <div id="resultContent"></div>
+            <div id="exportData" class="export-data" style="display: none;"></div>
         </div>
     </div>
-</div>
 
-<script>
-    // LIFF関連の変数
-    let liffInitialized = false;
-    let userProfile = null;
-    
-    // 眠気レベルの説明
-    const sleepinessLevels = [
-        { level: 1, description: "やる気があり、活発で、頭がさえていて、眠くない感じ" },
-        { level: 2, description: "最高とはいえないまでも、頭の働きが活発、集中していられる" },
-        { level: 3, description: "くつろいで起きている、しかしどちらかというとすこし頭がぼんやりし反応が悪い" },
-        { level: 4, description: "すこしぼんやりしていて、何かしたいと思わない" },
-        { level: 5, description: "ぼんやりしている、集中していられない、起きているのが困難" },
-        { level: 6, description: "眠いので横になりたい、ぼおっとしている" },
-        { level: 7, description: "まどろんでいる、起きていられない、すぐにねむってしまいそうだ" }
-    ];
-    
-    // LIFF初期化
-    async function initializeLiff() {
-        try {
-            document.getElementById('liffStatus').style.display = 'block';
-            document.getElementById('liffStatus').textContent = 'LIFF初期化中...';
-            
-            awaitliff.init({ liffId:'2007512404-5D9d4gBM' });
-            
-            if (liff.isLoggedIn()) {
-                userProfile = await liff.getProfile();
-                document.getElementById('userInfo').style.display = 'block';
-                document.getElementById('userName').textContent = `名前: ${userProfile.displayName}`;
-                document.getElementById('userId').textContent = `ユーザーID: ${userProfile.userId}`;
-                document.getElementById('sendLineBtn').style.display = 'inline-block';
+    <!-- 共有モーダル -->
+    <div id="shareModal" class="share-modal">
+        <div class="share-content">
+            <h3>📊 眠気尺度結果を共有</h3>
+            <div id="sharePreview" class="share-preview"></div>
+            <div class="share-buttons">
+                <button class="btn btn-line" onclick="executeLineShare()">LINE で共有</button>
+                <button class="btn btn-secondary" onclick="copyShareText()">テキストをコピー</button>
+                <button class="btn btn-secondary" onclick="closeShareModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LIFF関連の変数
+        let liffInitialized = false;
+        let userProfile = null;
+        
+        // 眠気レベルの説明
+        const sleepinessLevels = [
+            { level: 1, description: "やる気があり、活発で、頭がさえていて、眠くない感じ" },
+            { level: 2, description: "最高とはいえないまでも、頭の働きが活発、集中していられる" },
+            { level: 3, description: "くつろいで起きている、しかしどちらかというとすこし頭がぼんやりし反応が悪い" },
+            { level: 4, description: "すこしぼんやりしていて、何かしたいと思わない" },
+            { level: 5, description: "ぼんやりしている、集中していられない、起きているのが困難" },
+            { level: 6, description: "眠いので横になりたい、ぼおっとしている" },
+            { level: 7, description: "まどろんでいる、起きていられない、すぐにねむってしまいそうだ" }
+        ];
+        
+        // LIFF初期化
+        async function initializeLiff() {
+            try {
+                document.getElementById('liffStatus').style.display = 'block';
+                document.getElementById('liffStatus').textContent = 'LIFF初期化中...';
                 
-                document.getElementById('liffStatus').textContent = 'LINE連携完了';
-                setTimeout(() => {
-                    document.getElementById('liffStatus').style.display = 'none';
-                }, 2000);
-            } else {
-                liff.login();
+                await liff.init({ liffId: '2007512404-5D9d4gBM' });
+                
+                if (liff.isLoggedIn()) {
+                    userProfile = await liff.getProfile();
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('userName').textContent = `名前: ${userProfile.displayName}`;
+                    document.getElementById('userId').textContent = `ユーザーID: ${userProfile.userId}`;
+                    document.getElementById('sendLineBtn').style.display = 'inline-block';
+                    
+                    document.getElementById('liffStatus').textContent = 'LINE連携完了';
+                    setTimeout(() => {
+                        document.getElementById('liffStatus').style.display = 'none';
+                    }, 2000);
+                } else {
+                    liff.login();
+                }
+                
+                liffInitialized = true;
+            } catch (error) {
+                console.error('LIFF初期化エラー:', error);
+                document.getElementById('liffStatus').style.display = 'none';
+                document.getElementById('liffError').style.display = 'block';
+                document.getElementById('liffError').textContent = 'LIFF初期化に失敗しました。ブラウザでも利用可能です。';
+            }
+        }
+        
+        // LINE共有機能
+        function shareToLine() {
+            const form = document.getElementById('sssForm');
+            const formData = new FormData(form);
+            
+            const sleepinessLevel = formData.get('sleepiness');
+            if (!sleepinessLevel) {
+                alert('眠気レベルを選択してから共有してください。');
+                return;
             }
             
-            liffInitialized = true;
-        } catch (error) {
-            console.error('LIFF初期化エラー:', error);
-            document.getElementById('liffStatus').style.display = 'none';
-            document.getElementById('liffError').style.display = 'block';
-            document.getElementById('liffError').textContent = 'LIFF初期化に失敗しました。ブラウザでも利用可能です。';
-        }
-    }
-    
-    // LINE共有機能
-    function shareToLine() {
-        const form = document.getElementById('sssForm');
-        const formData = new FormData(form);
-        
-        const sleepinessLevel = formData.get('sleepiness');
-        if (!sleepinessLevel) {
-            alert('眠気レベルを選択してから共有してください。');
-            return;
+            const shareText = generateShareText(parseInt(sleepinessLevel), formData.get('surveyDate'));
+            document.getElementById('sharePreview').textContent = shareText;
+            document.getElementById('shareModal').style.display = 'flex';
         }
         
-        const shareText = generateShareText(parseInt(sleepinessLevel), formData.get('surveyDate'));
-        document.getElementById('sharePreview').textContent = shareText;
-        document.getElementById('shareModal').style.display = 'flex';
-    }
-    
-    function generateShareText(level, surveyDate) {
-        const levelData = sleepinessLevels[level - 1];
-        
-        let shareText = `😴 スタンフォード眠気尺度（SSS）結果\n`;
-        if (surveyDate) {
-            const date = new Date(surveyDate);
-            shareText += `📅 ${date.toLocaleString('ja-JP')}\n`;
-        }
-        shareText += `\n📊 眠気レベル: ${level}\n`;
-        shareText += `💭 ${levelData.description}\n`;
-        shareText += `\n#スタンフォード眠気尺度 #SSS #眠気測定`;
-        
-        return shareText;
-    }
-    
-    function executeLineShare() {
-        const shareText = document.getElementById('sharePreview').textContent;
-        const encodedText = encodeURIComponent(shareText);
-        
-        const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(window.location.href)}&text=${encodedText}`;
-        
-        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-            window.open(lineShareUrl, '_blank');
-        } else {
-            copyShareText();
-            alert('テキストをクリップボードにコピーしました。\nLINEで貼り付けて共有してください。');
+        function generateShareText(level, surveyDate) {
+            const levelData = sleepinessLevels[level - 1];
+            
+            let shareText = `😴 スタンフォード眠気尺度（SSS）結果\n`;
+            if (surveyDate) {
+                const date = new Date(surveyDate);
+                shareText += `📅 ${date.toLocaleString('ja-JP')}\n`;
+            }
+            shareText += `\n📊 眠気レベル: ${level}\n`;
+            shareText += `💭 ${levelData.description}\n`;
+            shareText += `\n#スタンフォード眠気尺度 #SSS #眠気測定`;
+            
+            return shareText;
         }
         
-        closeShareModal();
-    }
-    
-    function copyShareText() {
-        const shareText = document.getElementById('sharePreview').textContent;
-        navigator.clipboard.writeText(shareText).then(() => {
-            alert('共有テキストをクリップボードにコピーしました！');
-        }).catch(() => {
-            const textArea = document.createElement('textarea');
-            textArea.value = shareText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('共有テキストをコピーしました！');
-        });
-        closeShareModal();
-    }
-    
-    function closeShareModal() {
-        document.getElementById('shareModal').style.display = 'none';
-    }
-    
-    // モーダル外クリックで閉じる
-    document.addEventListener('click', function(e) {
-        const modal = document.getElementById('shareModal');
-        if (e.target === modal) {
+        function executeLineShare() {
+            const shareText = document.getElementById('sharePreview').textContent;
+            const encodedText = encodeURIComponent(shareText);
+            
+            const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(window.location.href)}&text=${encodedText}`;
+            
+            if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+                window.open(lineShareUrl, '_blank');
+            } else {
+                copyShareText();
+                alert('テキストをクリップボードにコピーしました。\nLINEで貼り付けて共有してください。');
+            }
+            
             closeShareModal();
         }
-    });
+        
+        function copyShareText() {
+            const shareText = document.getElementById('sharePreview').textContent;
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert('共有テキストをクリップボードにコピーしました！');
+            }).catch(() => {
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('共有テキストをコピーしました！');
+            });
+            closeShareModal();
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+        
+        // モーダル外クリックで閉じる
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('shareModal');
+            if (e.target === modal) {
+                closeShareModal();
+            }
+        });
 
-    // LINEに結果を送信（LIFF内での使用）
-    async function sendToLine() {
-        if (!liffInitialized || !liff.isLoggedIn()) {
-            alert('LINE連携が必要です。');
-            return;
-        }
-        
-        const form = document.getElementById('sssForm');
-        const formData = new FormData(form);
-        
-        const sleepinessLevel = formData.get('sleepiness');
-        if (!sleepinessLevel) {
-            alert('眠気レベルを選択してから送信してください。');
-            return;
-        }
-        
-        const shareText = generateShareText(parseInt(sleepinessLevel), formData.get('surveyDate'));
-        
-        try {
-            await liff.sendMessages([{
-                type: 'text',
-                text: shareText
-            }]);
+        // LINEに結果を送信（LIFF内での使用）
+        async function sendToLine() {
+            if (!liffInitialized || !liff.isLoggedIn()) {
+                alert('LINE連携が必要です。');
+                return;
+            }
             
-            alert('結果をLINEに送信しました！');
-        } catch (error) {
-            console.error('LINE送信エラー:', error);
-            alert('LINE送信に失敗しました。');
+            const form = document.getElementById('sssForm');
+            const formData = new FormData(form);
+            
+            const sleepinessLevel = formData.get('sleepiness');
+            if (!sleepinessLevel) {
+                alert('眠気レベルを選択してから送信してください。');
+                return;
+            }
+            
+            const shareText = generateShareText(parseInt(sleepinessLevel), formData.get('surveyDate'));
+            
+            try {
+                await liff.sendMessages([{
+                    type: 'text',
+                    text: shareText
+                }]);
+                
+                alert('結果をLINEに送信しました！');
+            } catch (error) {
+                console.error('LINE送信エラー:', error);
+                alert('LINE送信に失敗しました。');
+            }
         }
-    }
 
-    function showResults() {
-        const form = document.getElementById('sssForm');
-        const formData = new FormData(form);
-        
-        const sleepinessLevel = formData.get('sleepiness');
-        if (!sleepinessLevel) {
-            alert('眠気レベルを選択してください。');
-            return;
+        function showResults() {
+            const form = document.getElementById('sssForm');
+            const formData = new FormData(form);
+            
+            const sleepinessLevel = formData.get('sleepiness');
+            if (!sleepinessLevel) {
+                alert('眠気レベルを選択してください。');
+                return;
+            }
+            
+            displayResults(parseInt(sleepinessLevel), formData.get('surveyDate'));
         }
-        
-        displayResults(parseInt(sleepinessLevel), formData.get('surveyDate'));
-    }
 
-    function displayResults(level, surveyDate) {
-        const resultsDiv = document.getElementById('results');
-        const resultContentDiv = document.getElementById('resultContent');
-        
-        const levelData = sleepinessLevels[level - 1];
-        
-        let html = `
-            <div class="result-item">
-                <div class="result-header">
-                    <div class="result-number">${level}</div>
-                    <div class="result-label">眠気レベル ${level}</div>
-                </div>
-                <div class="result-description">${levelData.description}</div>
-            </div>
-        `;
-        
-        if (surveyDate) {
-            const date = new Date(surveyDate);
-            html = `
+        function displayResults(level, surveyDate) {
+            const resultsDiv = document.getElementById('results');
+            const resultContentDiv = document.getElementById('resultContent');
+            
+            const levelData = sleepinessLevels[level - 1];
+            
+            let html = `
                 <div class="result-item">
                     <div class="result-header">
-                        <div class="result-number">📅</div>
-                        <div class="result-label">調査日時</div>
+                        <div class="result-number">${level}</div>
+                        <div class="result-label">眠気レベル ${level}</div>
                     </div>
-                    <div class="result-description">${date.toLocaleString('ja-JP')}</div>
+                    <div class="result-description">${levelData.description}</div>
                 </div>
-            ` + html;
-        }
-        
-        resultContentDiv.innerHTML = html;
-        resultsDiv.style.display = 'block';
-        
-        resultsDiv.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function resetForm() {
-        if (confirm('入力内容をリセットしますか？')) {
-            document.getElementById('sssForm').reset();
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('exportData').style.display = 'none';
+            `;
             
-            // 現在の日時を再設定
+            if (surveyDate) {
+                const date = new Date(surveyDate);
+                html = `
+                    <div class="result-item">
+                        <div class="result-header">
+                            <div class="result-number">📅</div>
+                            <div class="result-label">調査日時</div>
+                        </div>
+                        <div class="result-description">${date.toLocaleString('ja-JP')}</div>
+                    </div>
+                ` + html;
+            }
+            
+            resultContentDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('入力内容をリセットしますか？')) {
+                document.getElementById('sssForm').reset();
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('exportData').style.display = 'none';
+                
+                // 現在の日時を再設定
+                const now = new Date();
+                const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                document.getElementById('surveyDate').value = localDateTime;
+            }
+        }
+
+        function exportData() {
+            const form = document.getElementById('sssForm');
+            const formData = new FormData(form);
+            
+            const sleepinessLevel = formData.get('sleepiness');
+            const surveyDate = formData.get('surveyDate') || '';
+            
+            if (!sleepinessLevel) {
+                alert('眠気レベルを選択してから出力してください。');
+                return;
+            }
+            
+            // CSV形式でデータ出力
+            let csvData = 'SurveyDateTime,';
+            if (userProfile) {
+                csvData += 'UserName,UserId,';
+            }
+            csvData += 'SleepinessLevel\n';
+            
+            csvData += `${surveyDate},`;
+            if (userProfile) {
+                csvData += `"${userProfile.displayName}",${userProfile.userId},`;
+            }
+            csvData += sleepinessLevel;
+            
+            // 詳細データ表示
+            let detailData = `=== スタンフォード眠気尺度（SSS）データ出力 ===\n`;
+            if (surveyDate) {
+                const date = new Date(surveyDate);
+                detailData += `調査日時: ${date.toLocaleString('ja-JP')}\n`;
+            }
+            
+            if (userProfile) {
+                detailData += `ユーザー名: ${userProfile.displayName}\n`;
+                detailData += `ユーザーID: ${userProfile.userId}\n`;
+            }
+            
+            detailData += `\n=== 原回答データ (CSV形式) ===\n${csvData}\n`;
+            detailData += `\n=== 詳細結果 ===\n`;
+            detailData += `眠気レベル: ${sleepinessLevel}\n`;
+            detailData += `状態: ${sleepinessLevels[parseInt(sleepinessLevel) - 1].description}`;
+            
+            document.getElementById('exportData').textContent = detailData;
+            document.getElementById('exportData').style.display = 'block';
+            
+            // クリップボードにコピー
+            navigator.clipboard.writeText(csvData).then(() => {
+                alert('CSVデータがクリップボードにコピーされました。\n詳細データは下部に表示されています。');
+            }).catch(() => {
+                alert('データ出力が完了しました。下部の詳細データをご確認ください。');
+            });
+        }
+
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 現在の日時を設定
             const now = new Date();
             const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-            document.
-```
+            document.getElementById('surveyDate').value = localDateTime;
+            
+            // LIFF初期化を試行
+            if (typeof liff !== 'undefined') {
+                initializeLiff();
+            }
+        });
+
+        // エンターキーでの送信を防止
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
